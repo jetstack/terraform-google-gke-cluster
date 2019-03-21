@@ -1,0 +1,66 @@
+# The GCP Project ID to use
+gcp_project_id = "my-project"
+
+# The name of the cluster
+cluster_name = "my-cluster"
+
+# If just the region is set a regional cluster will be created. 
+gcp_region = "europe-west1"
+
+# If zone is set, regardless of wherher region is also set, a zonal cluster 
+# will be created.
+gcp_zone = ""
+
+daily_maintenance_window_start_time = "03:00"
+
+# The list of node pool configurations, each should include:
+# name - the name of the node pool, which will be suffixed with '-pool'
+# initial_node_count - the initial number of nodes
+# autoscaling_min_node_count - the minimum number of nodes for autoscaling
+# autoscaling_max_node_count - the maximum number of nodes for autoscaling
+# management_auto_repair - whether to auto repair nodes
+# management_auto_upgrade - whether to auto upgrade nodes
+# node_config_machine_type - the GCP machine type for nodes
+# auto_repair - whether to auto repair nodes in this pool
+# auto_upgrade - whether to auto upgrade nodes in this pool
+node_pools = [
+  {
+    name                       = "default"
+    initial_node_count         = 3
+    node_config_machine_type   = "n1-standard-1"
+    disk_type                  = "pd-standard"
+    disk_size_gb               = 100
+    autoscaling_min_node_count = 3
+    autoscaling_max_node_count = 3
+    auto_upgrade               = true
+    auto_repair                = true
+  },
+]
+
+vpc_network_name = "vpc-network"
+
+vpc_subnetwork_name = "vpc-subnetwork"
+
+vpc_subnetwork_cidr_range = "10.0.16.0/20"
+
+cluster_secondary_range_name = "pods"
+
+cluster_secondary_range_cidr = "10.16.0.0/12"
+
+services_secondary_range_name = "services"
+
+services_secondary_range_cidr = "10.1.0.0/20"
+
+master_ipv4_cidr_block = "172.16.0.0/28"
+
+access_private_images = "false"
+
+http_load_balancing_disabled = "false"
+
+master_authorized_networks_cidr_blocks = [
+  {
+    cidr_block = "0.0.0.0/0"
+
+    display_name = "default"
+  },
+]
