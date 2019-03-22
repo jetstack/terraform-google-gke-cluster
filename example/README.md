@@ -29,8 +29,11 @@ gcloud init
 Ensure the required APIs are enabled:
 
 ```
-gcloud services enable iam.googleapis.com
+gcloud services enable storage-api.googleapis.com
 gcloud services enable cloudresourcemanager.googleapis.com
+gcloud services enable compute.googleapis.com
+gcloud services enable container.googleapis.com
+gcloud services enable iam.googleapis.com
 ```
 
 Now create a service account for Terraform to use, generate a key file for it, and save the key location as an environment variable:
