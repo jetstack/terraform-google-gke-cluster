@@ -29,15 +29,46 @@ variable "daily_maintenance_window_start_time" {
 }
 
 # The list of node pool configurations, each should include:
-# name - the name of the node pool, which will be suffixed with '-pool'
-# initial_node_count - the initial number of nodes
-# autoscaling_min_node_count - the minimum number of nodes for autoscaling
-# autoscaling_max_node_count - the maximum number of nodes for autoscaling
-# management_auto_repair - whether to auto repair nodes
-# management_auto_upgrade - whether to auto upgrade nodes
-# node_config_machine_type - the GCP machine type for nodes
-# auto_repair - whether to auto repair nodes in this pool
-# auto_upgrade - whether to auto upgrade nodes in this pool
+#
+# The name of the node pool, which will be suffixed with '-pool'. Defaults to
+# pool number in the Terraform list, starting from 1.
+# name
+#
+# The initial node count for the pool. Changing this will force recreation of
+# the resource. Defaults to 1.
+# initial_node_count
+#
+# Minimum number of nodes in the NodePool. Must be >=0 and <= max_node_count.
+# Defaults to 2.
+# autoscaling_min_node_count
+#
+# Maximum number of nodes in the NodePool. Must be >= min_node_count. Defaults
+# to 3.
+# autoscaling_max_node_count
+#
+# Whether the nodes will be automatically repaired. Defaults to 'true'.
+# management_auto_repair
+#
+# Whether the nodes will be automatically upgraded. Defaults to 'true'.
+# management_auto_upgrade
+#
+# The name of a Google Compute Engine machine type. Defaults to n1-standard-1.
+# To create a custom machine type, value should be set as specified here:
+# https://cloud.google.com/compute/docs/reference/rest/v1/instances#machineType
+# node_config_machine_type
+#
+# Type of the disk attached to each node (e.g. 'pd-standard' or 'pd-ssd').
+# Defaults to 'pd-standard'
+# node_config_disk_type
+#
+# Size of the disk attached to each node, specified in GB. The smallest
+# allowed disk size is 10GB. Defaults to 100GB.
+# node_config_disk_size_gb
+#
+# Whether or not the underlying node VMs are preemptible. See the official
+# documentation for more information. Defaults to false.
+# https://cloud.google.com/kubernetes-engine/docs/how-to/preemptible-vms
+# node_config_preemptible
 variable "node_pools" {
   type = "list"
 }

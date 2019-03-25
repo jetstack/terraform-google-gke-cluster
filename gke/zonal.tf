@@ -173,16 +173,16 @@ resource "google_container_node_pool" "zonal_pool" {
 
     # Size of the disk attached to each node, specified in GB. The smallest
     # allowed disk size is 10GB. Defaults to 100GB.
-    disk_size_gb = "${lookup(var.node_pools[count.index], "disk_size_gb", 100)}"
+    disk_size_gb = "${lookup(var.node_pools[count.index], "node_config_disk_size_gb", 100)}"
 
     # Type of the disk attached to each node (e.g. 'pd-standard' or 'pd-ssd').
     # If unspecified, the default disk type is 'pd-standard'
-    disk_type = "${lookup(var.node_pools[count.index], "disk_type", "pd-standard")}"
+    disk_type = "${lookup(var.node_pools[count.index], "node_config_disk_type", "pd-standard")}"
 
     # A boolean that represents whether or not the underlying node VMs are
     # preemptible. See the official documentation for more information.
     # Defaults to false.
-    preemptible = "${lookup(var.node_pools[count.index], "preemptible", false)}"
+    preemptible = "${lookup(var.node_pools[count.index], "node_config_preemptible", false)}"
 
     # The set of Google API scopes to be made available on all of the node VMs
     # under the "default" service account. These can be either FQDNs, or scope
