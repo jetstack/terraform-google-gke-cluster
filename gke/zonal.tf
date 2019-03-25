@@ -120,6 +120,13 @@ resource "google_container_cluster" "zonal_cluster" {
   master_authorized_networks_config {
     cidr_blocks = "${var.master_authorized_networks_cidr_blocks}"
   }
+
+  # Change how long update operations on the cluster are allowed to take
+  # before being considered to have failed. The default is 10 mins.
+  # https://www.terraform.io/docs/configuration/resources.html#operation-timeouts
+  timeouts {
+    update = "20m"
+  }
 }
 
 # https://www.terraform.io/docs/providers/google/r/container_node_pool.html
@@ -193,7 +200,7 @@ resource "google_container_node_pool" "zonal_pool" {
     }
   }
 
-  # Change how long updste operations on the cluster are allowed to take
+  # Change how long update operations on the node pool are allowed to take
   # before being considered to have failed. The default is 10 mins.
   # https://www.terraform.io/docs/configuration/resources.html#operation-timeouts
   timeouts {
