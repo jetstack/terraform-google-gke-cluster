@@ -22,14 +22,12 @@ set -o errexit
 set -o nounset
 set -o pipefail
 
-cp gke/regional.tf gke/zonal.tf
-
-# Replace regional first or you'll end up with 'zoneal'
-sed -i.bak 's|regional|zonal|g' gke/zonal.tf
-sed -i.bak 's|region|zone|g' gke/zonal.tf
-
-# Update the expression used to set count
-sed -i.bak 's|var.gcp_zone == ""|var.gcp_zone != ""|g' gke/zonal.tf
-
-# Remove sed backup
-rm gke/zonal.tf.bak
+mv gke/zonal.tf gke/zonal.tf.git
+./hack/make-zonal.sh
+DIFF=$(diff gke/zonal.tf gke/zonal.tf.git)
+if [ "$DIFF" != "" ]; then
+	echo "zonal.tf is out of sync with regional.tf, run make-zonal.sh to generate it again"
+	echo "$DIFF"
+	exit 1
+fi
+mv gke/zonal.tf.git gke/zonal.tf

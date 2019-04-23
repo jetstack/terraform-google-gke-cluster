@@ -22,14 +22,22 @@ set -o errexit
 set -o nounset
 set -o pipefail
 
-cp gke/regional.tf gke/zonal.tf
+REPO_ROOT=$(dirname "${BASH_SOURCE[0]}")/..
 
-# Replace regional first or you'll end up with 'zoneal'
-sed -i.bak 's|regional|zonal|g' gke/zonal.tf
-sed -i.bak 's|region|zone|g' gke/zonal.tf
+FMT=$(terraform fmt $REPO_ROOT)
+if [ "$FMT" != "" ]; then
+	echo "$FMT"
+	exit 1
+fi
 
-# Update the expression used to set count
-sed -i.bak 's|var.gcp_zone == ""|var.gcp_zone != ""|g' gke/zonal.tf
-
-# Remove sed backup
-rm gke/zonal.tf.bak
+mkdir $REPO_ROOT/verify-terraform
+pushd $REPO_ROOT/verify-terraform
+cp ../example/main.tf main.tf
+cp ../example/variables.tf variables.tf
+cp ../example/terraform.tfvars.example terraform.tfvars
+# Comment out the requirement for a GCS backend so we can init and validate locally
+sed -i.bak 's|backend "gcs" {}|# backend "gcs" {}|g' main.tf
+terraform init
+terraform validate
+popd > /dev/null
+rm -rf $REPO_ROOT/verify-terraform
