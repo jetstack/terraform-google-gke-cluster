@@ -53,3 +53,8 @@ Many of the properties of the cluster are set as Terraform resource arguments wi
 ## Usage
 
 The module itself is located in the `gke/` directory and is designed to be used as part of a larger Terraform project. There is also a minimal example project in the `example/` directory which can be used to show the GKE module in use.
+
+## License
+
+This project is licensed under the [Apache 2.0 License](https://choosealicense.com/licenses/apache-2.0/).
+For full details see the `LICENSE` file.
