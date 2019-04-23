@@ -22,5 +22,6 @@ set -o errexit
 set -o nounset
 set -o pipefail
 
-./hack/verify-zonal.sh
-./hack/verify-terraform.sh
+REPO_ROOT=$(dirname "${BASH_SOURCE[0]}")/..
+$REPO_ROOT/hack/verify-zonal.sh
+$REPO_ROOT/hack/verify-terraform.sh
