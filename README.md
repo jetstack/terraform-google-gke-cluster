@@ -1,12 +1,14 @@
-# GKE Terraform Module
+# Terraform Google GKE Module
 
 A Terraform module to create a best-practise Google Kubernetes Engine (GKE) cluster.
 
-The module is designed to be used by Jetstack customers to make it easier for them to create clusters that are secure and follow Jetstack recommendations. It gives them flexibility with certain properties so the cluster can be customised to their needs, but gives fixed values for properties that could lead to issues or insecurity.
+The module is designed to be used by Jetstack customers to make it easier for them to create clusters that are secure and follow Jetstack recommendations.
+It gives them flexibility with certain properties so the cluster can be customised to their needs, but gives fixed values for properties that could lead to issues or insecurity.
 
 ## Customisable Properties
 
-The module allows for properties of the cluster to be customised by setting Terraform resource arguments with input variables. These are:
+The module allows for properties of the cluster to be customised by setting Terraform resource arguments with input variables.
+These are:
 
 - GCP project ID
 - Cluster name
@@ -27,11 +29,14 @@ The module allows for properties of the cluster to be customised by setting Terr
 - Master CIDR block (defaults to 172.16.0.0/28)
 - Master authorized CIDR blocks (defaults to 0.0.0.0/0 i.e. everywhere)
 
-Note that the VPC network and subnetwork specified must already exist. The subnetwork must also have the cluster and service ranges specified.
+Note that the VPC network and subnetwork specified must already exist.
+The subnetwork must also have the cluster and service ranges specified.
 
 ## Fixed Arguments
 
-Many of the properties of the cluster are set as Terraform resource arguments with fixed values. These values are based on Jetstack's recommended best-practice settings. These are:
+Many of the properties of the cluster are set as Terraform resource arguments with fixed values.
+These values are based on Jetstack's recommended best-practice settings.
+These are:
 
 - Setting master version to latest
 - Enabling private nodes so they aren't reachable externally
@@ -52,7 +57,8 @@ Many of the properties of the cluster are set as Terraform resource arguments wi
 
 ## Usage
 
-The module itself is located in the `gke/` directory and is designed to be used as part of a larger Terraform project. There is also a minimal example project in the `example/` directory which can be used to show the GKE module in use.
+The module itself is located in the `gke/` directory and is designed to be used as part of a larger Terraform project.
+There is also a minimal example project in the `example/` directory which can be used to show the GKE module in use.
 
 ## License
 
