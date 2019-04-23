@@ -26,6 +26,7 @@ mv gke/zonal.tf gke/zonal.tf.git
 ./hack/make-zonal.sh
 DIFF=$(diff gke/zonal.tf gke/zonal.tf.git)
 if [ "$DIFF" != "" ]; then
+	echo "zonal.tf is out of sync with regional.tf, run make-zonal.sh to generate it again"
 	echo "$DIFF"
 	exit 1
 fi
