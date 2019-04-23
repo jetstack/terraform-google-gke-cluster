@@ -24,6 +24,7 @@ mv gke/zonal.tf gke/zonal.tf.git
 ./hack/make-zonal.sh
 DIFF=$(diff gke/zonal.tf gke/zonal.tf.git)
 if [ "$DIFF" != "" ]; then
+	echo "$DIFF"
 	exit 1
 fi
 mv gke/zonal.tf.git gke/zonal.tf
