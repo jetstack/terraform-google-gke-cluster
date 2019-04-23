@@ -18,10 +18,10 @@ Much of what these commands go can be achieved using the GCP Console, but using 
 
 The following guide assumes commands are run from the `example` directory.
 
-Provide the input variables with a `terraform.tfvas` file which can be created from the example file provided:
+Provide the input variables with a `terraform.tfvars` file which can be created from the example file provided:
 
 ```
-cp terraform.tfvas.example terraform.tfvas
+cp terraform.tfvars.example terraform.tfvars
 ```
 
 The values set in this file should be edited according to your environment and requirements.
