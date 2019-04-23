@@ -22,6 +22,12 @@ set -o errexit
 set -o nounset
 set -o pipefail
 
+FMT=$(terraform fmt)
+if [ "$FMT" != "" ]; then
+	echo "$FMT"
+	exit 1
+fi
+
 cd example/
 # Comment out the requirement for a GCS backend so we can init and validate locally
 sed -i.bak 's|backend "gcs" {}|# backend "gcs" {}|g' main.tf
