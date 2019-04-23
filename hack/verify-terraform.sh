@@ -22,22 +22,22 @@ set -o errexit
 set -o nounset
 set -o pipefail
 
-FMT=$(terraform fmt)
+REPO_ROOT=$(dirname "${BASH_SOURCE[0]}")/..
+
+FMT=$(terraform fmt $REPO_ROOT)
 if [ "$FMT" != "" ]; then
 	echo "$FMT"
 	exit 1
 fi
 
-cd example/
+mkdir $REPO_ROOT/verify-terraform
+pushd $REPO_ROOT/verify-terraform
+cp ../example/main.tf main.tf
+cp ../example/variables.tf variables.tf
+cp ../example/terraform.tfvars.example terraform.tfvars
 # Comment out the requirement for a GCS backend so we can init and validate locally
 sed -i.bak 's|backend "gcs" {}|# backend "gcs" {}|g' main.tf
-# Use the example tfvars
-cp terraform.tfvars.example terraform.tfvars
 terraform init
 terraform validate
-# Reset the GCS backend requirement
-sed -i.bak 's|# backend "gcs" {}|backend "gcs" {}|g' main.tf
-rm main.tf.bak
-rm terraform.tfvars
-rm -rf .terraform/
-cd ..
+popd > /dev/null
+rm -rf $REPO_ROOT/verify-terraform
