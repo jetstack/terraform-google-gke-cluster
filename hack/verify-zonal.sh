@@ -18,7 +18,9 @@
 # definition. This helps to keep the two definitions the same, except for the
 # presence of the region or zone property.
 
-set -e
+set -o errexit
+set -o nounset
+set -o pipefail
 
 mv gke/zonal.tf gke/zonal.tf.git
 ./hack/make-zonal.sh

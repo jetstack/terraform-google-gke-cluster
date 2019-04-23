@@ -18,7 +18,9 @@
 # definition. This helps to keep the two definitions the same, except for the
 # presence of the region or zone property.
 
-set -e
+set -o errexit
+set -o nounset
+set -o pipefail
 
 cd example/
 # Comment out the requirement for a GCS backend so we can init and validate locally
