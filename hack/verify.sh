@@ -23,5 +23,4 @@ set -o nounset
 set -o pipefail
 
 REPO_ROOT=$(dirname "${BASH_SOURCE[0]}")/..
-$REPO_ROOT/hack/verify-zonal.sh
 $REPO_ROOT/hack/verify-terraform.sh

@@ -12,22 +12,20 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# Resource definitions for zonal cluster and node pools
-
-# For the module to be able to offer zonal or zonal cluster both kinds must  
-# be defined as separate resources and the count property used to create 0 of
-# one kind, and 1 of the other. This is because Terraform cannot handle both 
-# zone and zone being defined in the same resource definition.
+# Resource definitions for cluster and node pools
 
 # Each argument is explained, most details are pulled from the Terraform
 # documentation. Arguments set by input variables are documented in the
 # variables.tf file.
 
-# https://www.terraform.io/docs/providers/google/r/container_cluster.html
-resource "google_container_cluster" "zonal_cluster" {
-  count = "${var.gcp_zone != "" ? 1 : 0}"
+# https://www.terraform.io/docs/providers/google/index.html
+provider "google" {
+  version = "2.5.1"
+}
 
-  zone = "${var.gcp_zone}"
+# https://www.terraform.io/docs/providers/google/r/container_cluster.html
+resource "google_container_cluster" "cluster" {
+  location = "${var.gcp_location}"
 
   name = "${var.cluster_name}"
 
@@ -144,18 +142,16 @@ resource "google_container_cluster" "zonal_cluster" {
 }
 
 # https://www.terraform.io/docs/providers/google/r/container_node_pool.html
-resource "google_container_node_pool" "zonal_pool" {
-  count = "${var.gcp_zone != "" ? length(var.node_pools) : 0}"
-
-  # The zone or zone in which the cluster resides
-  zone = "${google_container_cluster.zonal_cluster.zone}"
+resource "google_container_node_pool" "node_pool" {
+  # The location (region or zone) in which the cluster resides
+  location = "${google_container_cluster.cluster.location}"
 
   # The name of the node pool. Instance groups created will have the cluster
   # name prefixed automatically.
   name = "${lookup(var.node_pools[count.index], "name", format("%03d", count.index + 1))}-pool"
 
   # The cluster to create the node pool for.
-  cluster = "${google_container_cluster.zonal_cluster.name}"
+  cluster = "${google_container_cluster.cluster.name}"
 
   initial_node_count = "${lookup(var.node_pools[count.index], "initial_node_count", 1)}"
 
