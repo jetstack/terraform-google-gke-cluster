@@ -30,7 +30,7 @@ if [ "$FMT" != "" ]; then
 	exit 1
 fi
 
-mkdir $REPO_ROOT/verify-terraform
+mkdir -p $REPO_ROOT/verify-terraform
 pushd $REPO_ROOT/verify-terraform
 cp ../example/main.tf main.tf
 cp ../example/variables.tf variables.tf
@@ -38,6 +38,10 @@ cp ../example/terraform.tfvars.example terraform.tfvars
 # Comment out the requirement for a GCS backend so we can init and validate locally
 sed -i.bak 's|backend "gcs" {}|# backend "gcs" {}|g' main.tf
 terraform init
-terraform validate
+VALIDATE=$(terraform validate)
+if [ "$VALIDATE" != "" ]; then
+	echo "$VALIDATE"
+	exit 1
+fi
 popd > /dev/null
 rm -rf $REPO_ROOT/verify-terraform
