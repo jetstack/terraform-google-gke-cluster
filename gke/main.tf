@@ -18,6 +18,11 @@
 # documentation. Arguments set by input variables are documented in the
 # variables.tf file.
 
+# https://www.terraform.io/docs/providers/google/index.html
+provider "google" {
+  version = "2.5.1"
+}
+
 # https://www.terraform.io/docs/providers/google/r/container_cluster.html
 resource "google_container_cluster" "cluster" {
   location = "${var.gcp_location}"

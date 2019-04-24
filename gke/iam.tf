@@ -17,11 +17,6 @@ provider "random" {
   version = "2.1.1"
 }
 
-# https://www.terraform.io/docs/providers/google/index.html
-provider "google" {
-  version = "2.5.1"
-}
-
 resource "random_id" "entropy" {
   byte_length = 6
 }
