@@ -23,7 +23,6 @@ terraform {
 provider "google" {
   version = "2.2.0"
   project = "${var.gcp_project_id}"
-  region  = "${var.gcp_region}"
 }
 
 resource "google_compute_network" "vpc_network" {
@@ -80,8 +79,7 @@ module "cluster" {
   # These values are set from the terrafrom.tfvas file
   gcp_project_id                         = "${var.gcp_project_id}"
   cluster_name                           = "${var.cluster_name}"
-  gcp_region                             = "${var.gcp_region}"
-  gcp_zone                               = "${var.gcp_zone}"
+  gcp_location                           = "${var.gcp_location}"
   daily_maintenance_window_start_time    = "${var.daily_maintenance_window_start_time}"
   node_pools                             = "${var.node_pools}"
   cluster_secondary_range_name           = "${var.cluster_secondary_range_name}"

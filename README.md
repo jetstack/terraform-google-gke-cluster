@@ -12,8 +12,9 @@ These are:
 
 - GCP project ID
 - Cluster name
-- GCP region
-- GCP zone (for a zonal cluster)
+- GCP location
+  - Specify a zone for a zonal cluster
+  - Specify a region for a regional cluster
 - Maintenance window start time
 - Node pools
   - Name

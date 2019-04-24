@@ -22,18 +22,14 @@ variable "cluster_name" {
   type = "string"
 }
 
-# The zone that the master and nodes specified in should be created in. If
-# zone is set a zonal cluster will be created, even if region is also set.
-variable "gcp_zone" {
-  type    = "string"
-  default = ""
-}
-
-# The region to create the cluster in. Master and nodes will be created in
-# each of three zones of the region.
-variable "gcp_region" {
-  type    = "string"
-  default = ""
+# The location (region or zone) in which the cluster master will be created,
+# as well as the default node location. If you specify a zone (such as
+# us-central1-a), the cluster will be a zonal cluster with a single cluster
+# master. If you specify a region (such as us-west1), the cluster will be a
+# regional cluster with multiple masters spread across zones in the region,
+# and with default node locations in those zones as well.
+variable "gcp_location" {
+  type = "string"
 }
 
 # The start time of the 4 hour window for daily maintenance operations RFC3339
