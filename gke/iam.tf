@@ -13,6 +13,15 @@
 # limitations under the License.
 
 # https://www.terraform.io/docs/providers/random/r/id.html
+provider "random" {
+  version = "2.1.1"
+}
+
+# https://www.terraform.io/docs/providers/google/index.html
+provider "google" {
+  version = "2.2.0"
+}
+
 resource "random_id" "entropy" {
   byte_length = 6
 }
