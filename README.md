@@ -1,4 +1,4 @@
-# Terraform Google GKE Module
+# Terraform Google GKE Cluster
 
 A Terraform module to create a best-practise Google Kubernetes Engine (GKE) cluster.
 
@@ -60,8 +60,8 @@ These are:
 
 ## Usage
 
-The module itself is located in the `gke/` directory and is designed to be used as part of a larger Terraform project.
-There is also a minimal example project in the `example/` directory which can be used to show the GKE module in use.
+The module itself is located in the root of this repo, and is designed to be used as part of a larger Terraform project.
+There is also a minimal example project in the `example/` directory which can be used to show the module in use.
 
 ## License
 
