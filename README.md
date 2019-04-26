@@ -2,6 +2,8 @@
 
 A Terraform module to create a best-practise Google Kubernetes Engine (GKE) cluster.
 
+This module is availble on [Terraform registry](https://registry.terraform.io/modules/jetstack/gke-cluster/google/).
+
 The module is designed to be used by Jetstack customers to make it easier for them to create clusters that are secure and follow Jetstack recommendations.
 It gives them flexibility with certain properties so the cluster can be customised to their needs, but gives fixed values for properties that could lead to issues or insecurity.
 
