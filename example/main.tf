@@ -74,7 +74,8 @@ resource "google_compute_subnetwork" "vpc_subnetwork" {
 }
 
 module "cluster" {
-  source = "../"
+  source  = "jetstack/gke-cluster/google"
+  version = "0.1.0-beta1"
 
   # These values are set from the terrafrom.tfvas file
   gcp_project_id                         = "${var.gcp_project_id}"
