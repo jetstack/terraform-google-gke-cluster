@@ -1,6 +1,8 @@
-# Terraform Google GKE Module
+# Terraform Google GKE Cluster
 
 A Terraform module to create a best-practise Google Kubernetes Engine (GKE) cluster.
+
+This module is availble on [Terraform registry](https://registry.terraform.io/modules/jetstack/gke-cluster/google/).
 
 The module is designed to be used by Jetstack customers to make it easier for them to create clusters that are secure and follow Jetstack recommendations.
 It gives them flexibility with certain properties so the cluster can be customised to their needs, but gives fixed values for properties that could lead to issues or insecurity.
@@ -58,8 +60,8 @@ These are:
 
 ## Usage
 
-The module itself is located in the `gke/` directory and is designed to be used as part of a larger Terraform project.
-There is also a minimal example project in the `example/` directory which can be used to show the GKE module in use.
+The module itself is located in the root of this repo, and is designed to be used as part of a larger Terraform project.
+There is also a minimal example project in the `example/` directory which can be used to show the module in use.
 
 ## License
 
