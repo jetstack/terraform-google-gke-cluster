@@ -1,6 +1,6 @@
-# Terraform Google GKE Module Example
+# Terraform Google GKE Cluster Example
 
-This example gives the minimum Terraform setup required to use the module.
+This example project gives the minimum Terraform setup required to use the `terraform-google-gke-cluster` module.
 
 ## Prerequisites
 
