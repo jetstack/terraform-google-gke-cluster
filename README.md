@@ -61,7 +61,20 @@ These are:
 ## Usage
 
 The module itself is located in the root of this repo, and is designed to be used as part of a larger Terraform project.
-There is also a minimal example project in the `example/` directory which can be used to show the module in use.
+It can be used directly from the Terraform Registry like so:
+
+```
+module "gke-cluster" {
+  source  = "jetstack/gke-cluster/google"
+  version = "0.1.0-beta1"
+
+  # insert the 9 required variables here
+}
+```
+
+## Example
+
+There is an [example project](https://github.com/jetstack/terraform-google-gke-cluster/tree/master/example) in the `example/` directory which can be used to test and demonstrate the module. It could also be used as the basis for your own Terraform project.
 
 ## License
 
