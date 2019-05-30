@@ -39,13 +39,13 @@ resource "google_container_cluster" "cluster" {
 
   name = "${var.cluster_name}"
 
-  # The minimum version of the master. GKE will auto-update the master to new 
-  # versions, so this does not guarantee the current master version--use the 
-  # read-only master_version field to obtain that. If unset, the cluster's 
-  # version will be set by GKE to the version of the most recent official release 
-  # (which is not necessarily the latest version). Most users will find the 
-  # google_container_engine_versions data source useful - it indicates which 
-  # versions are available. If you intend to specify versions manually, the 
+  # The minimum version of the master. GKE will auto-update the master to new
+  # versions, so this does not guarantee the current master version--use the
+  # read-only master_version field to obtain that. If unset, the cluster's
+  # version will be set by GKE to the version of the most recent official release
+  # (which is not necessarily the latest version). Most users will find the
+  # google_container_engine_versions data source useful - it indicates which
+  # versions are available. If you intend to specify versions manually, the
   # docs describe the various acceptable formats for this field.
   min_master_version = "latest"
 
@@ -60,8 +60,8 @@ resource "google_container_cluster" "cluster" {
     # Whether the master's internal IP address is used as the cluster endpoint.
     enable_private_endpoint = false
 
-    # Whether nodes have internal IP addresses only. If enabled, all nodes are 
-    # given only RFC 1918 private addresses and communicate with the master via 
+    # Whether nodes have internal IP addresses only. If enabled, all nodes are
+    # given only RFC 1918 private addresses and communicate with the master via
     # private networking.
     enable_private_nodes = true
 
@@ -92,7 +92,7 @@ resource "google_container_cluster" "cluster" {
 
   # The configuration for addons supported by GKE.
   addons_config {
-    # The status of the Kubernetes Dashboard add-on, which controls whether 
+    # The status of the Kubernetes Dashboard add-on, which controls whether
     # the Kubernetes Dashboard is enabled for this cluster. It is enabled by default.
     kubernetes_dashboard {
       disabled = true
@@ -102,9 +102,9 @@ resource "google_container_cluster" "cluster" {
       disabled = "${var.http_load_balancing_disabled}"
     }
 
-    # Whether we should enable the network policy addon for the master. This must be 
-    # enabled in order to enable network policy for the nodes. It can only be disabled 
-    # if the nodes already do not have network policies enabled. Defaults to disabled; 
+    # Whether we should enable the network policy addon for the master. This must be
+    # enabled in order to enable network policy for the nodes. It can only be disabled
+    # if the nodes already do not have network policies enabled. Defaults to disabled;
     # set disabled = false to enable.
     network_policy_config {
       disabled = false
@@ -155,6 +155,8 @@ resource "google_container_cluster" "cluster" {
 resource "google_container_node_pool" "node_pool" {
   # The location (region or zone) in which the cluster resides
   location = "${google_container_cluster.cluster.location}"
+
+  count = "${length(var.node_pools)}"
 
   # The name of the node pool. Instance groups created will have the cluster
   # name prefixed automatically.
