@@ -18,9 +18,19 @@
 # documentation. Arguments set by input variables are documented in the
 # variables.tf file.
 
+# Local values assign a name to an expression, that can then be used multiple
+# times within a module. They are used here to determine the GCP region from
+# the given location, which can be either a region or zone.
+locals {
+  gcp_location_parts = ["${split("-", var.gcp_location)}"]
+  gcp_region         = "${local.gcp_location_parts[0]}-${local.gcp_location_parts[1]}"
+}
+
 # https://www.terraform.io/docs/providers/google/index.html
 provider "google" {
   version = "2.5.1"
+  project = "${var.gcp_project_id}"
+  region  = "${local.gcp_region}"
 }
 
 # https://www.terraform.io/docs/providers/google/r/container_cluster.html
