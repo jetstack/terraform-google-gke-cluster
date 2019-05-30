@@ -37,6 +37,9 @@ cp ../example/variables.tf variables.tf
 cp ../example/terraform.tfvars.example terraform.tfvars
 # Comment out the requirement for a GCS backend so we can init and validate locally
 sed -i.bak 's|backend "gcs" {}|# backend "gcs" {}|g' main.tf
+# Use the local version of the module, not the Terraform Registry version
+sed -i.bak 's|source\s=\s"jetstack/gke-cluster/google"|source\s=\s"../"|g' main.tf
+sed -i.bak 's|"jetstack/gke-cluster/google"|"../"|g' main.tf
 terraform init
 VALIDATE=$(terraform validate)
 if [ "$VALIDATE" != "" ]; then
