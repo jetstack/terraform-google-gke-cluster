@@ -44,7 +44,7 @@ resource "google_project_iam_member" "monitoring-viewer" {
 }
 
 resource "google_project_iam_member" "storage-object-viewer" {
-  count  = "${var.access_private_images == "true" ? 1 : 0}"
+  count  = var.access_private_images == "true" ? 1 : 0
   role   = "roles/storage.objectViewer"
   member = "serviceAccount:${google_service_account.default.email}"
 }
