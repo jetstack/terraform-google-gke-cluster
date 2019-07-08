@@ -31,6 +31,7 @@ These are:
 - Disable HTTP load balancing (defaults to false, i.e. HTTP load balancing is enabled)
 - Master CIDR block (defaults to 172.16.0.0/28)
 - Master authorized CIDR blocks (defaults to 0.0.0.0/0 i.e. everywhere)
+- Enabling Stackdriver Kubernetes logging and monitoring
 
 Note that the VPC network and subnetwork specified must already exist.
 The subnetwork must also have the cluster and service ranges specified.

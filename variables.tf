@@ -241,3 +241,23 @@ Kubernetes RBAC. Group name must be in format
 gke-security-groups@yourdomain.com.
 EOF
 }
+
+variable "stackdriver_logging" {
+  type    = "string"
+  default = "true"
+
+  description = <<EOF
+Whether Stackdriver Kubernetes logging is enabled. This should only be set to
+"false" if another logging solution is set up.
+EOF
+}
+
+variable "stackdriver_monitoring" {
+  type    = "string"
+  default = "true"
+
+  description = <<EOF
+Whether Stackdriver Kubernetes montioring is enabled. This should only be set to
+"false" if another montioring solution is set up.
+EOF
+}
