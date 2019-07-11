@@ -40,11 +40,10 @@ pushd $REPO_ROOT/verify-terraform
 cp ../example/main.tf main.tf
 cp ../example/variables.tf variables.tf
 cp ../example/terraform.tfvars.example terraform.tfvars
-# Comment out the requirement for a GCS backend so we can init and validate locally
-sed -i.bak 's|backend "gcs" {}|# backend "gcs" {}|g' main.tf
-# Use the local version of the module, not the Terraform Registry version
-sed -i.bak 's|source\s=\s"jetstack/gke-cluster/google"|source\s=\s"../"|g' main.tf
-sed -i.bak 's|"jetstack/gke-cluster/google"|"../"|g' main.tf
+# Remove the requirement for a GCS backend so we can init and validate locally
+perl -i -0pe 's/(\s*)backend "gcs" {\n?\s*\n?\s*}/\1# GCS bucket not used for testing/gms' main.tf
+# Use the local version of the module, not the Terraform Registry version, and remove the version specification
+perl -i -0pe 's/(\s*)source*\s*= "jetstack\/gke-cluster\/google"\n\s*version = "0.1.0-beta2"/\1source = "..\/"/gms' main.tf
 
 terraform init
 terraform validate
