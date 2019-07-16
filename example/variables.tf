@@ -113,6 +113,30 @@ instances are launched.
 EOF
 }
 
+variable "router_name" {
+  type = "string"
+
+  description = <<EOF
+The name of the Google Compute Engine router.
+EOF
+}
+
+variable "address_name" {
+  type = "string"
+
+  description = <<EOF
+The name of the Google Compute Engine static address.
+EOF
+}
+
+variable "nat_name" {
+  type = "string"
+
+  description = <<EOF
+The name of the Google Compute Engine NAT.
+EOF
+}
+
 variable "vpc_subnetwork_cidr_range" {
   type = string
 }

@@ -81,6 +81,38 @@ resource "google_compute_subnetwork" "vpc_subnetwork" {
   ]
 }
 
+resource "google_compute_router" "router" {
+  name    = "${var.router_name}"
+  network = "${google_compute_network.vpc_network.self_link}"
+
+  bgp {
+    asn = 64514
+  }
+}
+
+resource "google_compute_address" "address" {
+  count = 1
+  name  = "${var.address_name}-${count.index}"
+}
+
+resource "google_compute_router_nat" "nat" {
+  name                               = "${var.nat_name}"
+  router                             = "${google_compute_router.router.name}"
+  nat_ip_allocate_option             = "MANUAL_ONLY"
+  nat_ips                            = ["${google_compute_address.address.*.self_link}"]
+  source_subnetwork_ip_ranges_to_nat = "LIST_OF_SUBNETWORKS"
+
+  subnetwork {
+    name                    = "${google_compute_subnetwork.vpc_subnetwork.self_link}"
+    source_ip_ranges_to_nat = ["ALL_IP_RANGES"]
+  }
+
+  log_config {
+    filter = "TRANSLATIONS_ONLY"
+    enable = true
+  }
+}
+
 module "cluster" {
   source  = "jetstack/gke-cluster/google"
   version = "0.2.0-alpha1"
