@@ -81,20 +81,25 @@ resource "google_compute_subnetwork" "vpc_subnetwork" {
   ]
 }
 
+# https://www.terraform.io/docs/providers/google/r/compute_router.html
 resource "google_compute_router" "router" {
   name    = "${var.router_name}"
   network = "${google_compute_network.vpc_network.self_link}"
 
+  # BGP information specific to this router.
   bgp {
+    # Local BGP Autonomous System Number (ASN).
     asn = 64514
   }
 }
 
+# https://www.terraform.io/docs/providers/google/r/compute_address.html
 resource "google_compute_address" "address" {
   count = 1
   name  = "${var.address_name}-${count.index}"
 }
 
+# https://www.terraform.io/docs/providers/google/r/compute_router_nat.html
 resource "google_compute_router_nat" "nat" {
   name                               = "${var.nat_name}"
   router                             = "${google_compute_router.router.name}"
