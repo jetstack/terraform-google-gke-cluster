@@ -137,6 +137,25 @@ The name of the Google Compute Engine NAT.
 EOF
 }
 
+variable "nat_log" {
+  type    = "string"
+  default = "true"
+
+  description = <<EOF
+Whether the NAT should export logs.
+EOF
+}
+
+variable "nat_log_filter" {
+  type    = "string"
+  default = "ALL"
+
+  description = <<EOF
+What filtering should be applied to logs for this NAT. Valid values are:
+"ERRORS_ONLY", "TRANSLATIONS_ONLY", "ALL"
+EOF
+}
+
 variable "vpc_subnetwork_cidr_range" {
   type = string
 }

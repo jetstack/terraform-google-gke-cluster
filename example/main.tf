@@ -113,8 +113,8 @@ resource "google_compute_router_nat" "nat" {
   }
 
   log_config {
-    filter = "TRANSLATIONS_ONLY"
-    enable = true
+    filter = "${var.nat_log_filter}"
+    enable = "${var.nat_log}"
   }
 }
 
