@@ -146,7 +146,7 @@ variable "services_secondary_range_cidr" {
 }
 
 variable "master_ipv4_cidr_block" {
-  type = string
+  type    = string
   default = "172.16.0.0/28"
 
   description = <<EOF
@@ -168,7 +168,7 @@ EOF
 }
 
 variable "http_load_balancing_disabled" {
-  type = string
+  type    = string
   default = "false"
 
   description = <<EOF
