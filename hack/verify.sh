@@ -49,9 +49,7 @@ fi
 
 # Checks the Terraform version used by the module, download the Terraform binary
 # for that version
-if grep "required_version.*0.11.*" "${REPO_ROOT}/main.tf"; then
-    TERRAFORM_VERSION="0.11.14"
-elif grep "required_version.*0.12.*" "${REPO_ROOT}/main.tf"; then
+if grep "required_version.*0.12.*" "${REPO_ROOT}/main.tf"; then
     TERRAFORM_VERSION="0.12.4"
 else
     echo "Terraform version is not supported or could not be found."
