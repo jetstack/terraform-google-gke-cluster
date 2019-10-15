@@ -13,10 +13,7 @@
 # limitations under the License.
 
 terraform {
-  # This project requires a terraform version >= 0.11 but < 0.12. This is
-  # because the module is only tested with 0.11 ,and has not yet been upgraded
-  # to use the new 0.12 syntax.
-  required_version = "~> 0.11"
+  required_version = "~> 0.12"
 
   # Use a GCS Bucket as a backend
   backend "gcs" {}
