@@ -19,8 +19,7 @@ terraform {
   required_version = "~> 0.11"
 
   # Use a GCS Bucket as a backend
-  backend "gcs" {
-  }
+  backend "gcs" {}
 }
 
 # Local values assign a name to an expression, that can then be used multiple
@@ -61,10 +60,10 @@ resource "google_compute_subnetwork" "vpc_subnetwork" {
   # distributed mode can have subnetworks.
   network = var.vpc_network_name
 
-  # An array of configurations for secondary IP ranges for VM instances
-  # contained in this subnetwork. The primary IP of such VM must belong to the
-  # primary ipCidrRange of the subnetwork. The alias IPs may belong to either
-  # primary or secondary ranges.
+  # Configurations for secondary IP ranges for VM instances contained in this
+  # subnetwork. The primary IP of such VM must belong to the primary ipCidrRange
+  # of the subnetwork. The alias IPs may belong to either primary or secondary
+  # ranges.
   secondary_ip_range {
     range_name    = var.cluster_secondary_range_name
     ip_cidr_range = var.cluster_secondary_range_cidr

@@ -66,11 +66,7 @@ It can be used directly from the Terraform Registry like so:
 ```
 module "gke-cluster" {
   source  = "jetstack/gke-cluster/google"
-<<<<<<< HEAD
-  version = "0.1.0"
-=======
   version = "0.2.0-alpha1"
->>>>>>> Porting to support Terraform v0.12
 
   # insert the 9 required variables here
 }

@@ -22,7 +22,7 @@ terraform {
   # This module requires a terraform version >= 0.11 but < 0.12. This is
   # because the module is only tested with 0.11 ,and has not yet been upgraded
   # to use the new 0.12 syntax.
-  required_version = "~> 0.11"
+  required_version = "~> 0.12"
 }
 
 # Local values assign a name to an expression, that can then be used multiple
@@ -30,7 +30,7 @@ terraform {
 # the given location, which can be either a region or zone.
 locals {
   gcp_location_parts = split("-", var.gcp_location)
-  gcp_region         = format("%s-%s", local.gcp_location_parts[0], local.gcp_location_parts[1]) 
+  gcp_region         = format("%s-%s", local.gcp_location_parts[0], local.gcp_location_parts[1])
 }
 
 # https://www.terraform.io/docs/providers/google/index.html
