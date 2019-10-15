@@ -23,7 +23,7 @@ REPO_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." >/dev/null 2>&1 && pwd )"
 
 # Make temporary directory to use for testing and enter it
 VERIFY_DIR="${REPO_ROOT}/verify"
-mkdir "$VERIFY_DIR"
+mkdir -p "$VERIFY_DIR"
 pushd "$VERIFY_DIR"
 
 # Determine OS type and architecture to get the correct Terraform binary.
