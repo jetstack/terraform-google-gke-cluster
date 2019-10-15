@@ -79,7 +79,7 @@ cp "${REPO_ROOT}/example/terraform.tfvars.example" terraform.tfvars
 # Remove the requirement for a GCS backend so we can init and validate locally
 perl -i -0pe 's/(\s*)backend "gcs" \{\n?\s*\n?\s*\}/\1# GCS bucket not used for testing/gms' main.tf
 # Use the local version of the module, not the Terraform Registry version, and remove the version specification
-perl -i -0pe 's/(\s*)source*\s*= "jetstack\/gke-cluster\/google"\n\s*version = "0.1.0-beta2"/\1source = "..\/"/gms' main.tf
+perl -i -0pe 's/(\s*)source*\s*= "jetstack\/gke-cluster\/google"\n\s*version = "0.2.0-alpha1"/\1source = "..\/"/gms' main.tf
 
 # Initialise and validate the generated test project
 $TERRAFORM init
