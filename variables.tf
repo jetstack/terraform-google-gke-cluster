@@ -13,7 +13,7 @@
 # limitations under the License.
 
 variable "gcp_project_id" {
-  type = "string"
+  type = string
 
   description = <<EOF
 The ID of the project in which the resources belong.
@@ -21,7 +21,7 @@ EOF
 }
 
 variable "cluster_name" {
-  type = "string"
+  type = string
 
   description = <<EOF
 The name of the cluster, unique within the project and zone.
@@ -29,7 +29,7 @@ EOF
 }
 
 variable "gcp_location" {
-  type = "string"
+  type = string
 
   description = <<EOF
 The location (region or zone) in which the cluster master will be created,
@@ -46,7 +46,7 @@ EOF
 }
 
 variable "daily_maintenance_window_start_time" {
-  type = "string"
+  type = string
 
   description = <<EOF
 The start time of the 4 hour window for daily maintenance operations RFC3339
@@ -55,7 +55,7 @@ EOF
 }
 
 variable "node_pools" {
-  type = "list"
+  type = list(map(string))
 
   description = <<EOF
 The list of node pool configurations, each should include:
@@ -96,7 +96,7 @@ EOF
 }
 
 variable "vpc_network_name" {
-  type = "string"
+  type = string
 
   description = <<EOF
 The name of the Google Compute Engine network to which the cluster is
@@ -105,7 +105,7 @@ EOF
 }
 
 variable "vpc_subnetwork_name" {
-  type = "string"
+  type = string
 
   description = <<EOF
 The name of the Google Compute Engine subnetwork in which the cluster's
@@ -114,7 +114,7 @@ EOF
 }
 
 variable "cluster_secondary_range_name" {
-  type = "string"
+  type = string
 
   description = <<EOF
 The name of the secondary range to be used as for the cluster CIDR block.
@@ -124,7 +124,7 @@ EOF
 }
 
 variable "services_secondary_range_name" {
-  type = "string"
+  type = string
 
   description = <<EOF
 The name of the secondary range to be used as for the services CIDR block.
@@ -134,7 +134,7 @@ EOF
 }
 
 variable "master_ipv4_cidr_block" {
-  type    = "string"
+  type = string
   default = "172.16.0.0/28"
 
   description = <<EOF
@@ -146,7 +146,7 @@ EOF
 }
 
 variable "access_private_images" {
-  type    = "string"
+  type    = string
   default = "false"
 
   description = <<EOF
@@ -156,7 +156,7 @@ EOF
 }
 
 variable "http_load_balancing_disabled" {
-  type    = "string"
+  type = string
   default = "false"
 
   description = <<EOF
@@ -167,18 +167,19 @@ EOF
 }
 
 variable "master_authorized_networks_cidr_blocks" {
-  type = "list"
+  type = list(map(string))
 
-  default = [{
-    # External network that can access Kubernetes master through HTTPS. Must
-    # be specified in CIDR notation. This block should allow access from any
-    # address, but is given explicitly to prevernt Google's defaults from
-    # fighting with Terraform.
-    cidr_block = "0.0.0.0/0"
-
-    # Field for users to identify CIDR blocks.
-    display_name = "default"
-  }]
+  default = [
+    {
+      # External network that can access Kubernetes master through HTTPS. Must
+      # be specified in CIDR notation. This block should allow access from any
+      # address, but is given explicitly to prevernt Google's defaults from
+      # fighting with Terraform.
+      cidr_block = "0.0.0.0/0"
+      # Field for users to identify CIDR blocks.
+      display_name = "default"
+    },
+  ]
 
   description = <<EOF
 Defines up to 20 external networks that can access Kubernetes master

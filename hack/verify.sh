@@ -23,7 +23,7 @@ REPO_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." >/dev/null 2>&1 && pwd )"
 
 # Make temporary directory to use for testing and enter it
 VERIFY_DIR="${REPO_ROOT}/verify"
-mkdir "$VERIFY_DIR"
+mkdir -p "$VERIFY_DIR"
 pushd "$VERIFY_DIR"
 
 # Determine OS type and architecture to get the correct Terraform binary.
@@ -49,9 +49,7 @@ fi
 
 # Checks the Terraform version used by the module, download the Terraform binary
 # for that version
-if grep "required_version.*0.11.*" "${REPO_ROOT}/main.tf"; then
-    TERRAFORM_VERSION="0.11.14"
-elif grep "required_version.*0.12.*" "${REPO_ROOT}/main.tf"; then
+if grep "required_version.*0.12.*" "${REPO_ROOT}/main.tf"; then
     TERRAFORM_VERSION="0.12.4"
 else
     echo "Terraform version is not supported or could not be found."
@@ -81,7 +79,7 @@ cp "${REPO_ROOT}/example/terraform.tfvars.example" terraform.tfvars
 # Remove the requirement for a GCS backend so we can init and validate locally
 perl -i -0pe 's/(\s*)backend "gcs" \{\n?\s*\n?\s*\}/\1# GCS bucket not used for testing/gms' main.tf
 # Use the local version of the module, not the Terraform Registry version, and remove the version specification
-perl -i -0pe 's/(\s*)source*\s*= "jetstack\/gke-cluster\/google"\n\s*version = "0.1.0-beta2"/\1source = "..\/"/gms' main.tf
+perl -i -0pe 's/(\s*)source*\s*= "jetstack\/gke-cluster\/google"\n\s*version = "0.2.0-alpha1"/\1source = "..\/"/gms' main.tf
 
 # Initialise and validate the generated test project
 $TERRAFORM init
