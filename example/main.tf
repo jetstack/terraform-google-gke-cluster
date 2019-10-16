@@ -28,7 +28,7 @@ locals {
 }
 
 # https://www.terraform.io/docs/providers/google/index.html
-provider "google" {
+provider "google-beta" {
   version = "3.5.0"
   project = var.gcp_project_id
   region  = local.gcp_region
@@ -50,7 +50,9 @@ resource "google_compute_subnetwork" "vpc_subnetwork" {
   # a dash, lowercase letter, or digit, except the last character, which
   # cannot be a dash.
   #name = "default-${var.gcp_cluster_region}"
-  name = var.vpc_subnetwork_name
+  name    = var.vpc_subnetwork_name
+  region  = local.gcp_region
+  project = var.gcp_project_id
 
   ip_cidr_range = var.vpc_subnetwork_cidr_range
 
@@ -113,7 +115,7 @@ resource "google_compute_router_nat" "nat" {
 
 module "cluster" {
   source  = "jetstack/gke-cluster/google"
-  version = "0.2.0-alpha1"
+  version = "0.2.1-alpha1"
 
   # These values are set from the terrafrom.tfvas file
   gcp_project_id                         = var.gcp_project_id

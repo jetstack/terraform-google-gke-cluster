@@ -92,6 +92,11 @@ resource "google_container_cluster" "cluster" {
     master_ipv4_cidr_block = var.master_ipv4_cidr_block
   }
 
+  # Enable the PodSecurityPolicy admission controller for the cluster.
+  pod_security_policy_config {
+    enabled = true
+  }
+
   # Configuration options for the NetworkPolicy feature.
   network_policy {
     # Whether network policy is enabled on the cluster. Defaults to false.
@@ -181,6 +186,8 @@ resource "google_container_cluster" "cluster" {
 
 # https://www.terraform.io/docs/providers/google/r/container_node_pool.html
 resource "google_container_node_pool" "node_pool" {
+  provider = "google-beta"
+
   # The location (region or zone) in which the cluster resides
   location = google_container_cluster.cluster.location
 
@@ -276,4 +283,3 @@ resource "google_container_node_pool" "node_pool" {
     update = "20m"
   }
 }
-
