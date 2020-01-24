@@ -25,6 +25,7 @@ resource "random_id" "entropy" {
 resource "google_service_account" "default" {
   account_id   = "cluster-minimal-${random_id.entropy.hex}"
   display_name = "Minimal service account for GKE cluster ${var.cluster_name}"
+  project      = var.gcp_project_id
 }
 
 # https://www.terraform.io/docs/providers/google/r/google_project_iam.html

@@ -37,6 +37,7 @@ provider "google" {
 resource "google_compute_network" "vpc_network" {
   name                    = var.vpc_network_name
   auto_create_subnetworks = "false"
+  project                 = var.gcp_project_id
 }
 
 # https://www.terraform.io/docs/providers/google/r/compute_subnetwork.html
