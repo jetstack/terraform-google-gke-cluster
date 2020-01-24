@@ -56,8 +56,13 @@ else
     exit 1
 fi
 
-curl "https://releases.hashicorp.com/terraform/${TERRAFORM_VERSION}/terraform_${TERRAFORM_VERSION}_${TERRAFORM_OS}_${TERRAFORM_ARCH}.zip" -o terraform.zip
-unzip terraform.zip
+TERRAFORM_ZIP="terraform_${TERRAFORM_VERSION}_${TERRAFORM_OS}_${TERRAFORM_ARCH}.zip"
+TERRAFORM_URL="https://releases.hashicorp.com/terraform/${TERRAFORM_VERSION}/${TERRAFORM_ZIP}"
+# If the zip is already present don't download it again.
+if [ ! -f ${TERRAFORM_ZIP} ]; then
+    curl $TERRAFORM_URL -o $TERRAFORM_ZIP
+fi
+unzip -o $TERRAFORM_ZIP
 chmod +x terraform
 TERRAFORM="${VERIFY_DIR}/terraform"
 $TERRAFORM version
