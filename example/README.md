@@ -5,7 +5,7 @@ This example project gives the minimum Terraform setup required to use the `terr
 ## Prerequisites
 
 Check that Terraform is installed and up to date on your machine with `terraform version`.
-At the time of writing the version of binary distributed by HashiCorp is `v0.12.12`.
+At the time of writing the version of binary distributed by HashiCorp is `v0.12.20`.
 Installation instructions can be found [here](https://learn.hashicorp.com/terraform/getting-started/install.html).
 
 This guide uses the Google Cloud Platform (GCP) utility `gcloud`, which is part of the [Cloud SDK](https://cloud.google.com/sdk/).
