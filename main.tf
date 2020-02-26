@@ -32,7 +32,7 @@ locals {
 
 # https://www.terraform.io/docs/providers/google/index.html
 provider "google" {
-  version = "2.5.1"
+  version = "3.5.0"
   project = var.gcp_project_id
   region  = local.gcp_region
 }
@@ -96,12 +96,6 @@ resource "google_container_cluster" "cluster" {
 
   # The configuration for addons supported by GKE.
   addons_config {
-    # The status of the Kubernetes Dashboard add-on, which controls whether
-    # the Kubernetes Dashboard is enabled for this cluster. It is enabled by default.
-    kubernetes_dashboard {
-      disabled = true
-    }
-
     http_load_balancing {
       disabled = var.http_load_balancing_disabled
     }
@@ -122,12 +116,6 @@ resource "google_container_cluster" "cluster" {
   # subnetworks (custom type with secondary ranges) are supported. This will
   # activate IP aliases.
   ip_allocation_policy {
-    # Whether alias IPs will be used for pod IPs in the cluster. Defaults to
-    # true if the ip_allocation_policy block is defined, and to the API
-    # default otherwise. Prior to June 17th 2019, the default on the API is
-    # false; afterwards, it's true.
-    use_ip_aliases = true
-
     cluster_secondary_range_name  = var.cluster_secondary_range_name
     services_secondary_range_name = var.services_secondary_range_name
   }
