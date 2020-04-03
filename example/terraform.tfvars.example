@@ -43,12 +43,6 @@ vpc_network_name = "vpc-network"
 
 vpc_subnetwork_name = "vpc-subnetwork"
 
-router_name = "my-router"
-
-address_name = "my-address"
-
-nat_name = "my-nat"
-
 vpc_subnetwork_cidr_range = "10.0.16.0/20"
 
 cluster_secondary_range_name = "pods"

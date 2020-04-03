@@ -25,6 +25,9 @@ terraform {
 locals {
   gcp_location_parts = split("-", var.gcp_location)
   gcp_region         = format("%s-%s", local.gcp_location_parts[0], local.gcp_location_parts[1])
+  # Whether Cloud NAT should be enabled. If explicitly set use this value,
+  # otherwise enable if private_nodes are enabled.
+  nat = var.nat != "" ? var.nat : var.private_nodes
 }
 
 # https://www.terraform.io/docs/providers/google/index.html
@@ -84,6 +87,8 @@ resource "google_compute_subnetwork" "vpc_subnetwork" {
 # https://www.terraform.io/docs/providers/google/r/compute_router.html
 # This Cloud Router is used only for the Cloud NAT.
 resource "google_compute_router" "router" {
+  # Only create the Cloud NAT if it is enabled.
+  count   = local.nat ? 1 : 0
   name    = format("%s-router", var.cluster_name)
   region  = local.gcp_region
   network = google_compute_network.vpc_network.self_link
@@ -91,9 +96,11 @@ resource "google_compute_router" "router" {
 
 # https://www.terraform.io/docs/providers/google/r/compute_router_nat.html
 resource "google_compute_router_nat" "nat" {
+  # Only create the Cloud NAT if it is enabled.
+  count  = local.nat ? 1 : 0
   name   = format("%s-nat", var.cluster_name)
-  router = google_compute_router.router.name
-  region = google_compute_router.router.region
+  router = format("%s-router", var.cluster_name)
+  region = local.gcp_region
   # For this example project just use IPs allocated automatically by GCP.
   nat_ip_allocate_option = "AUTO_ONLY"
   # Apply NAT to all IP ranges in the subnetwork.
@@ -121,6 +128,8 @@ module "cluster" {
   access_private_images                  = var.access_private_images
   http_load_balancing_disabled           = var.http_load_balancing_disabled
   master_authorized_networks_cidr_blocks = var.master_authorized_networks_cidr_blocks
+  private_nodes                          = var.private_nodes
+  private_endpoint                       = var.private_endpoint
 
   # Refer to the vpc-network and vpc-subnetwork by the name value on the
   # resource, rather than the variable used to assign the name, so that
