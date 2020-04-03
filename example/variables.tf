@@ -113,32 +113,8 @@ instances are launched.
 EOF
 }
 
-variable "router_name" {
-  type = "string"
-
-  description = <<EOF
-The name of the Google Compute Engine router.
-EOF
-}
-
-variable "address_name" {
-  type = "string"
-
-  description = <<EOF
-The name of the Google Compute Engine static address.
-EOF
-}
-
-variable "nat_name" {
-  type = "string"
-
-  description = <<EOF
-The name of the Google Compute Engine NAT.
-EOF
-}
-
 variable "nat_log" {
-  type    = "string"
+  type    = string
   default = "true"
 
   description = <<EOF
@@ -147,8 +123,8 @@ EOF
 }
 
 variable "nat_log_filter" {
-  type    = "string"
-  default = "ALL"
+  type    = string
+  default = "ERRORS_ONLY"
 
   description = <<EOF
 What filtering should be applied to logs for this NAT. Valid values are:

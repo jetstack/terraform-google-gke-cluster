@@ -82,39 +82,26 @@ resource "google_compute_subnetwork" "vpc_subnetwork" {
 }
 
 # https://www.terraform.io/docs/providers/google/r/compute_router.html
+# This Cloud Router is used only for the Cloud NAT.
 resource "google_compute_router" "router" {
-  name    = "${var.router_name}"
-  network = "${google_compute_network.vpc_network.self_link}"
-
-  # BGP information specific to this router.
-  bgp {
-    # Local BGP Autonomous System Number (ASN).
-    asn = 64514
-  }
-}
-
-# https://www.terraform.io/docs/providers/google/r/compute_address.html
-resource "google_compute_address" "address" {
-  count = 1
-  name  = "${var.address_name}-${count.index}"
+  name    = format("%s-router", var.cluster_name)
+  region  = local.gcp_region
+  network = google_compute_network.vpc_network.self_link
 }
 
 # https://www.terraform.io/docs/providers/google/r/compute_router_nat.html
 resource "google_compute_router_nat" "nat" {
-  name                               = "${var.nat_name}"
-  router                             = "${google_compute_router.router.name}"
-  nat_ip_allocate_option             = "MANUAL_ONLY"
-  nat_ips                            = ["${google_compute_address.address.*.self_link}"]
-  source_subnetwork_ip_ranges_to_nat = "LIST_OF_SUBNETWORKS"
-
-  subnetwork {
-    name                    = "${google_compute_subnetwork.vpc_subnetwork.self_link}"
-    source_ip_ranges_to_nat = ["ALL_IP_RANGES"]
-  }
+  name   = format("%s-nat", var.cluster_name)
+  router = google_compute_router.router.name
+  region = google_compute_router.router.region
+  # For this example project just use IPs allocated automatically by GCP.
+  nat_ip_allocate_option = "AUTO_ONLY"
+  # Apply NAT to all IP ranges in the subnetwork.
+  source_subnetwork_ip_ranges_to_nat = "ALL_SUBNETWORKS_ALL_IP_RANGES"
 
   log_config {
-    filter = "${var.nat_log_filter}"
-    enable = "${var.nat_log}"
+    enable = var.nat_log
+    filter = var.nat_log_filter
   }
 }
 
