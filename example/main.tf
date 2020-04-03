@@ -97,10 +97,12 @@ resource "google_compute_router" "router" {
 # https://www.terraform.io/docs/providers/google/r/compute_router_nat.html
 resource "google_compute_router_nat" "nat" {
   # Only create the Cloud NAT if it is enabled.
-  count  = local.nat ? 1 : 0
-  name   = format("%s-nat", var.cluster_name)
-  router = format("%s-router", var.cluster_name)
-  region = local.gcp_region
+  count = local.nat ? 1 : 0
+  name  = format("%s-nat", var.cluster_name)
+  // Because router has the count attribute set we have to use [0] here to
+  // refer to its attributes.
+  router = google_compute_router.router[0].name
+  region = google_compute_router.router[0].region
   # For this example project just use IPs allocated automatically by GCP.
   nat_ip_allocate_option = "AUTO_ONLY"
   # Apply NAT to all IP ranges in the subnetwork.
