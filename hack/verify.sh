@@ -50,14 +50,19 @@ fi
 # Checks the Terraform version used by the module, download the Terraform binary
 # for that version
 if grep "required_version.*0.12.*" "${REPO_ROOT}/main.tf"; then
-    TERRAFORM_VERSION="0.12.4"
+    TERRAFORM_VERSION="0.12.24"
 else
     echo "Terraform version is not supported or could not be found."
     exit 1
 fi
 
-curl "https://releases.hashicorp.com/terraform/${TERRAFORM_VERSION}/terraform_${TERRAFORM_VERSION}_${TERRAFORM_OS}_${TERRAFORM_ARCH}.zip" -o terraform.zip
-unzip terraform.zip
+TERRAFORM_ZIP="terraform_${TERRAFORM_VERSION}_${TERRAFORM_OS}_${TERRAFORM_ARCH}.zip"
+TERRAFORM_URL="https://releases.hashicorp.com/terraform/${TERRAFORM_VERSION}/${TERRAFORM_ZIP}"
+# If the zip is already present don't download it again.
+if [ ! -f ${TERRAFORM_ZIP} ]; then
+    curl $TERRAFORM_URL -o $TERRAFORM_ZIP
+fi
+unzip -o $TERRAFORM_ZIP
 chmod +x terraform
 TERRAFORM="${VERIFY_DIR}/terraform"
 $TERRAFORM version
@@ -79,7 +84,7 @@ cp "${REPO_ROOT}/example/terraform.tfvars.example" terraform.tfvars
 # Remove the requirement for a GCS backend so we can init and validate locally
 perl -i -0pe 's/(\s*)backend "gcs" \{\n?\s*\n?\s*\}/\1# GCS bucket not used for testing/gms' main.tf
 # Use the local version of the module, not the Terraform Registry version, and remove the version specification
-perl -i -0pe 's/(\s*)source*\s*= "jetstack\/gke-cluster\/google"\n\s*version = "0.2.0-alpha1"/\1source = "..\/"/gms' main.tf
+perl -i -0pe 's/(\s*)source*\s*= "jetstack\/gke-cluster\/google"\n\s*version = ".*"/\1source = "..\/"/gms' main.tf
 
 # Initialise and validate the generated test project
 $TERRAFORM init
