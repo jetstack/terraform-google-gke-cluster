@@ -43,15 +43,7 @@ resource "google_container_cluster" "cluster" {
 
   name = var.cluster_name
 
-  # The minimum version of the master. GKE will auto-update the master to new
-  # versions, so this does not guarantee the current master version--use the
-  # read-only master_version field to obtain that. If unset, the cluster's
-  # version will be set by GKE to the version of the most recent official release
-  # (which is not necessarily the latest version). Most users will find the
-  # google_container_engine_versions data source useful - it indicates which
-  # versions are available. If you intend to specify versions manually, the
-  # docs describe the various acceptable formats for this field.
-  min_master_version = "latest"
+  min_master_version = var.min_master_version
 
   maintenance_policy {
     daily_maintenance_window {

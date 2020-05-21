@@ -186,3 +186,21 @@ Defines up to 20 external networks that can access Kubernetes master
 through HTTPS.
 EOF
 }
+
+variable "min_master_version" {
+  type = string
+
+  default = "latest"
+
+  description = <<EOF
+The minimum version of the master. GKE will auto-update the master to new
+versions, so this does not guarantee the current master version--use the
+read-only master_version field to obtain that. If unset, the cluster's
+version will be set by GKE to the version of the most recent official release
+(which is not necessarily the latest version). Most users will find the
+google_container_engine_versions data source useful - it indicates which
+versions are available. If you intend to specify versions manually, the
+docs describe the various acceptable formats for this field.
+EOF
+
+}
