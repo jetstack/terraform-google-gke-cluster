@@ -229,3 +229,15 @@ business, stability, and functionality needs.
 EOF
 
 }
+
+variable "authenticator_security_group" {
+  type = string
+
+  default = ""
+
+  description = <<EOF
+The name of the RBAC security group for use with Google security groups in
+Kubernetes RBAC. Group name must be in format
+gke-security-groups@yourdomain.com.
+EOF
+}
