@@ -37,13 +37,34 @@ provider "google" {
   region  = local.gcp_region
 }
 
+provider "google-beta" {
+  version = "~> 3.5"
+  project = var.gcp_project_id
+  region  = local.gcp_region
+}
+
+locals {
+  release_channel    = var.release_channel == "" ? [] : [var.release_channel]
+  min_master_version = var.release_channel == "" ? var.min_master_version : ""
+}
+
 # https://www.terraform.io/docs/providers/google/r/container_cluster.html
 resource "google_container_cluster" "cluster" {
   location = var.gcp_location
 
   name = var.cluster_name
 
-  min_master_version = var.min_master_version
+  min_master_version = local.min_master_version
+
+  provider = google-beta
+
+  dynamic "release_channel" {
+    for_each = toset(local.release_channel)
+
+    content {
+      channel = release_channel.value
+    }
+  }
 
   maintenance_policy {
     daily_maintenance_window {
