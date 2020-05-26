@@ -37,6 +37,10 @@ provider "google" {
   region  = local.gcp_region
 }
 
+locals {
+  authenticator_security_group = var.authenticator_security_group == "" ? [] : [var.authenticator_security_group]
+}
+
 # https://www.terraform.io/docs/providers/google/r/container_cluster.html
 resource "google_container_cluster" "cluster" {
   location = var.gcp_location
@@ -44,6 +48,14 @@ resource "google_container_cluster" "cluster" {
   name = var.cluster_name
 
   min_master_version = var.min_master_version
+
+  dynamic "authenticator_groups_config" {
+    for_each = toset(local.authenticator_security_group)
+
+    content {
+      security_group = authenticator_groups_config.value
+    }
+  }
 
   maintenance_policy {
     daily_maintenance_window {
