@@ -50,6 +50,7 @@ provider "google-beta" {
 locals {
   release_channel    = var.release_channel == "" ? [] : [var.release_channel]
   min_master_version = var.release_channel == "" ? var.min_master_version : ""
+  identity_namespace = var.identity_namespace == "" ? [] : [var.identity_namespace]
 }
 
 locals {
@@ -79,6 +80,15 @@ resource "google_container_cluster" "cluster" {
 
     content {
       security_group = authenticator_groups_config.value
+    }
+  }
+
+  # Configure workload identity if set
+  dynamic "workload_identity_config" {
+    for_each = toset(local.identity_namespace)
+
+    content {
+      identity_namespace = workload_identity_config.value
     }
   }
 
