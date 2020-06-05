@@ -194,15 +194,25 @@ variable "min_master_version" {
 
   description = <<EOF
 The minimum version of the master. GKE will auto-update the master to new
-versions, so this does not guarantee the current master version--use the
-read-only master_version field to obtain that. If unset, the cluster's
+versions, so this does not guarantee the current master version. Use the
+read-only 'master_version' field to obtain that. If unset, the cluster's
 version will be set by GKE to the version of the most recent official release
 (which is not necessarily the latest version). Most users will find the
-google_container_engine_versions data source useful - it indicates which
+'google_container_engine_versions' data source useful - it indicates which
 versions are available. If you intend to specify versions manually, the
 docs describe the various acceptable formats for this field.
-EOF
 
+This can be a specific version such as '1.16.8-gke.N', a patch or minor version
+such as '1.X', the latest available version with 'latest', or the default
+version with '-'.
+
+Creating or upgrading a cluster by specifying the version as latest does not
+provide automatic upgrades.
+
+This option is overriden if a 'release_channel' is set.
+
+https://cloud.google.com/kubernetes-engine/versioning-and-upgrades#specifying_cluster_version
+EOF
 }
 
 variable "release_channel" {
@@ -213,19 +223,24 @@ variable "release_channel" {
   description = <<EOF
 Kubernetes releases updates often, to deliver security updates, fix known
 issues, and introduce new features. Release channels provide control over how
-often clusters are automatically updated , and offer customers the ability to
+often clusters are automatically updated, and offer customers the ability to
 balance between stability and functionality of the version deployed in the
 cluster.
 
-When you enroll a new cluster in a release channel, Google automatically
-manages the version and upgrade cadence for the cluster and its node pools. All
-channels offer supported releases of GKE and are considered GA (although
-individual features may not always be GA, as marked). The Kubernetes releases
-in these channels are official Kubernetes releases and include both GA and beta
+When you enroll a cluster in a release channel, Google automatically manages the
+version and upgrade cadence for the cluster and its node pools. All channels
+offer supported releases of GKE and are considered GA (although individual
+features may not always be GA, as marked). The Kubernetes releases in these
+channels are official Kubernetes releases and include both GA and beta
 Kubernetes APIs (as marked). New Kubernetes versions are first released to the
 Rapid channel, and over time will be promoted to the Regular, and Stable
 channel. This allows you to subscribe your cluster to a channel that meets your
 business, stability, and functionality needs.
-EOF
 
+This can be one of 'RAPID', 'REGULAR', or 'STABLE'.
+
+Setting a release channel overrides the 'min_master_version' option.
+
+https://cloud.google.com/kubernetes-engine/docs/concepts/release-channels
+EOF
 }
