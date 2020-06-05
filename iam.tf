@@ -14,7 +14,7 @@
 
 # https://www.terraform.io/docs/providers/random/r/id.html
 provider "random" {
-  version = "2.1.1"
+  version = "~> 2.1"
 }
 
 resource "random_id" "entropy" {
