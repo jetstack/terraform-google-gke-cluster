@@ -48,7 +48,7 @@ else
 fi
 
 # Checks the Terraform version used by the module, download the Terraform binary
-# for that version
+# for that version.
 if grep "required_version.*0.12.*" "${REPO_ROOT}/main.tf"; then
     TERRAFORM_VERSION="0.12.24"
 else
@@ -113,8 +113,8 @@ if [ ! -z ${GCP_PROJECT_ID+x} ] || [ ! -z ${GOOGLE_APPLICATION_CREDENTIALS+x} ];
     echo $GCP_PROJECT_ID
     echo $GOOGLE_APPLICATION_CREDENTIALS
     sed -i.bak "s|my-project|$GCP_PROJECT_ID|g" terraform.tfvars
-    $TERRAFORM  plan
-    $TERRAFORM  apply -auto-approve
+    $TERRAFORM plan
+    $TERRAFORM apply -auto-approve
     if [ ! "$SKIP_DESTROY" == "true" ]; then
         $TERRAFORM destroy -auto-approve
     fi
