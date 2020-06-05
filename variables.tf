@@ -190,7 +190,7 @@ EOF
 variable "min_master_version" {
   type = string
 
-  default = "latest"
+  default = ""
 
   description = <<EOF
 The minimum version of the master. GKE will auto-update the master to new
@@ -218,7 +218,7 @@ EOF
 variable "release_channel" {
   type = string
 
-  default = ""
+  default = "REGULAR"
 
   description = <<EOF
 Kubernetes releases updates often, to deliver security updates, fix known
