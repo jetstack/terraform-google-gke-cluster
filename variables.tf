@@ -58,7 +58,7 @@ variable "node_pools" {
   type = list(map(string))
 
   description = <<EOF
-The list of node pool configurations, each should include:
+The list of node pool configurations, each can include:
 
 name - The name of the node pool, which will be suffixed with '-pool'.
 Defaults to pool number in the Terraform list, starting from 1.
@@ -77,6 +77,14 @@ Defaults to 'true'.
 
 management_auto_upgrade - Whether the nodes will be automatically upgraded.
 Defaults to 'true'.
+
+version - The Kubernetes version for the nodes in this pool. Note that if this
+field is set the 'management_auto_upgrade' will be overriden and set to 'false'.
+This is to avoid both options fighting on what the node version should be. While
+a fuzzy version can be specified, it's recommended that you specify explicit
+versions as Terraform will see spurious diffs when fuzzy versions are used. See
+the 'google_container_engine_versions' data source's 'version_prefix' field to
+approximate fuzzy versions in a Terraform-compatible way.
 
 node_config_machine_type - The name of a Google Compute Engine machine type.
 Defaults to n1-standard-1. To create a custom machine type, value should be
