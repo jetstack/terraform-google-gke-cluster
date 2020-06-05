@@ -77,14 +77,22 @@ if [ "$FMT" != "" ]; then
     exit 1
 fi
 
-# Copy files from the example project
-cp "${REPO_ROOT}/example/main.tf" main.tf
-cp "${REPO_ROOT}/example/variables.tf" variables.tf
-cp "${REPO_ROOT}/example/terraform.tfvars.example" terraform.tfvars
-# Remove the requirement for a GCS backend so we can init and validate locally
-perl -i -0pe 's/(\s*)backend "gcs" \{\n?\s*\n?\s*\}/\1# GCS bucket not used for testing/gms' main.tf
-# Use the local version of the module, not the Terraform Registry version, and remove the version specification
-perl -i -0pe 's/(\s*)source*\s*= "jetstack\/gke-cluster\/google"\n\s*version = ".*?"/\1source = "..\/"/gms' main.tf
+# Copy files from the example project to use a test project for the module.
+# Only copy these files if they don't already so they can be edited during
+# iterative testing.
+if [ ! -f main.tf ]; then
+    cp "${REPO_ROOT}/example/main.tf" main.tf
+    # Remove the requirement for a GCS backend so we can init and validate locally
+    perl -i -0pe 's/(\s*)backend "gcs" \{\n?\s*\n?\s*\}/\1# GCS bucket not used for testing/gms' main.tf
+    # Use the local version of the module, not the Terraform Registry version, and remove the version specification
+    perl -i -0pe 's/(\s*)source*\s*= "jetstack\/gke-cluster\/google"\n\s*version = ".*?"/\1source = "..\/"/gms' main.tf
+fi
+if [ ! -f variables.tf ]; then
+    cp "${REPO_ROOT}/example/variables.tf" variables.tf
+fi
+if [ ! -f terraform.tfvars ]; then
+    cp "${REPO_ROOT}/example/terraform.tfvars.example" terraform.tfvars
+fi
 
 # Initialise and validate the generated test project
 $TERRAFORM init
