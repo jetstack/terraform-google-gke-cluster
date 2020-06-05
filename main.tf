@@ -166,6 +166,9 @@ resource "google_container_node_pool" "node_pool" {
     max_node_count = lookup(var.node_pools[count.index], "autoscaling_max_node_count", 3)
   }
 
+  # Target a specific version
+  version = lookup(var.node_pools[count.index], "version", "")
+
   # Node management configuration, wherein auto-repair and auto-upgrade is configured.
   management {
     # Whether the nodes will be automatically repaired.
