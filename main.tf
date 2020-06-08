@@ -48,6 +48,10 @@ locals {
   min_master_version = var.release_channel == "" ? var.min_master_version : ""
 }
 
+locals {
+  authenticator_security_group = var.authenticator_security_group == "" ? [] : [var.authenticator_security_group]
+}
+
 # https://www.terraform.io/docs/providers/google/r/container_cluster.html
 resource "google_container_cluster" "cluster" {
   location = var.gcp_location
@@ -63,6 +67,14 @@ resource "google_container_cluster" "cluster" {
 
     content {
       channel = release_channel.value
+    }
+  }
+
+  dynamic "authenticator_groups_config" {
+    for_each = toset(local.authenticator_security_group)
+
+    content {
+      security_group = authenticator_groups_config.value
     }
   }
 
