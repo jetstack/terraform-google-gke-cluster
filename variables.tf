@@ -173,7 +173,7 @@ variable "master_authorized_networks_cidr_blocks" {
     {
       # External network that can access Kubernetes master through HTTPS. Must
       # be specified in CIDR notation. This block should allow access from any
-      # address, but is given explicitly to prevernt Google's defaults from
+      # address, but is given explicitly to prevent Google's defaults from
       # fighting with Terraform.
       cidr_block = "0.0.0.0/0"
       # Field for users to identify CIDR blocks.
@@ -239,5 +239,25 @@ variable "authenticator_security_group" {
 The name of the RBAC security group for use with Google security groups in
 Kubernetes RBAC. Group name must be in format
 gke-security-groups@yourdomain.com.
+EOF
+}
+
+variable "stackdriver_logging" {
+  type    = "string"
+  default = "true"
+
+  description = <<EOF
+Whether Stackdriver Kubernetes logging is enabled. This should only be set to
+"false" if another logging solution is set up.
+EOF
+}
+
+variable "stackdriver_monitoring" {
+  type    = "string"
+  default = "true"
+
+  description = <<EOF
+Whether Stackdriver Kubernetes monitoring is enabled. This should only be set to
+"false" if another monitoring solution is set up.
 EOF
 }
