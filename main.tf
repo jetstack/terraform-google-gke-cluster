@@ -98,7 +98,7 @@ resource "google_container_cluster" "cluster" {
 
   # Enable the PodSecurityPolicy admission controller for the cluster.
   pod_security_policy_config {
-    enabled = true
+    enabled = var.pod_security_policy_enabled
   }
 
   # Configuration options for the NetworkPolicy feature.
