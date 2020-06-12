@@ -28,7 +28,7 @@ locals {
 }
 
 # https://www.terraform.io/docs/providers/google/index.html
-provider "google-beta" {
+provider "google" {
   version = "3.5.0"
   project = var.gcp_project_id
   region  = local.gcp_region

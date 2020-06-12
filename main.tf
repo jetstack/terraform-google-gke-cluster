@@ -37,6 +37,10 @@ provider "google" {
   region  = local.gcp_region
 }
 
+# To make use of beta features the google-beta provider is also used. Only
+# resources that use beta features use the beta provider. All resources have
+# the provider set explicitly for clarity.
+# https://www.terraform.io/docs/providers/google/guides/provider_versions.html#using-the-google-beta-provider
 provider "google-beta" {
   version = "~> 3.5"
   project = var.gcp_project_id
@@ -54,13 +58,13 @@ locals {
 
 # https://www.terraform.io/docs/providers/google/r/container_cluster.html
 resource "google_container_cluster" "cluster" {
+  provider = google-beta
+
   location = var.gcp_location
 
   name = var.cluster_name
 
   min_master_version = local.min_master_version
-
-  provider = google-beta
 
   dynamic "release_channel" {
     for_each = toset(local.release_channel)
@@ -186,7 +190,7 @@ resource "google_container_cluster" "cluster" {
 
 # https://www.terraform.io/docs/providers/google/r/container_node_pool.html
 resource "google_container_node_pool" "node_pool" {
-  provider = "google-beta"
+  provider = google
 
   # The location (region or zone) in which the cluster resides
   location = google_container_cluster.cluster.location
