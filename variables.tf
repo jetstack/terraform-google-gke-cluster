@@ -307,9 +307,9 @@ EOF
 }
 
 variable "pod_security_policy_enabled" {
-  type = string
+  type = bool
 
-  default = "false"
+  default = false
 
   description = <<EOF
 A PodSecurityPolicy is an admission controller resource you create that
