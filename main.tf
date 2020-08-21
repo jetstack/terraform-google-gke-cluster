@@ -209,7 +209,7 @@ resource "google_container_node_pool" "node_pool" {
     max_node_count = lookup(var.node_pools[count.index], "autoscaling_max_node_count", 3)
   }
 
-  # Target a specific version
+  # Target a specific Kubernetes version.
   version = lookup(var.node_pools[count.index], "version", "")
 
   # Node management configuration, wherein auto-repair and auto-upgrade is configured.
@@ -218,7 +218,7 @@ resource "google_container_node_pool" "node_pool" {
     auto_repair = lookup(var.node_pools[count.index], "auto_repair", true)
 
     # Whether the nodes will be automatically upgraded.
-    auto_upgrade = lookup(var.node_pools[count.index], "auto_upgrade", true)
+    auto_upgrade = lookup(var.node_pools[count.index], "version", "") == "" ? lookup(var.node_pools[count.index], "auto_upgrade", true) : false
   }
 
   # Parameters used in creating the cluster's nodes.
