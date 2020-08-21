@@ -131,6 +131,7 @@ module "cluster" {
   master_authorized_networks_cidr_blocks = var.master_authorized_networks_cidr_blocks
   private_nodes                          = var.private_nodes
   private_endpoint                       = var.private_endpoint
+  pod_security_policy_enabled            = var.pod_security_policy_enabled
 
   # Refer to the vpc-network and vpc-subnetwork by the name value on the
   # resource, rather than the variable used to assign the name, so that
