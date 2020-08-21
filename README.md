@@ -7,54 +7,56 @@ This module is available on [Terraform registry](https://registry.terraform.io/m
 The module is designed to be used by Jetstack customers to make it easier for them to create clusters that are secure and follow Jetstack recommendations.
 It gives them flexibility with certain properties so the cluster can be customised to their needs, but gives fixed values for properties that could lead to issues or insecurity.
 
+## Deprecation
+
+The `0.3` release of this module is planned to be the final release.
+After this the module will be deprecated in favour of [Google's GKE module](https://github.com/terraform-google-modules/terraform-google-kubernetes-engine).
+Jetstack will be producing an example project using Google's module as well as migration guidance.
+
+## Requirements
+
+The module requires an existing Google Cloud project, with VPC network and subnetwork for the cluster to use.
+The subnetwork must be in the same region as the cluster and have pod and service ranges specified.
+
 ## Customisable Properties
 
-The module allows for properties of the cluster to be customised by setting Terraform resource arguments with input variables.
-These are:
+The module allows the cluster to be extensively customised using input variables.
+These can be found with documentation in [`variables.tf`](variables.tf).
 
-- GCP project ID
-- Cluster name
-- GCP location
-  - Specify a zone for a zonal cluster (e.g. europe-west1-b)
-  - Specify a region for a regional cluster (e.g. europe-west1)
-- Maintenance window start time
+The customisable properties include:
+- Release channel or minimum master version
+- Private nodes
+- Master private endpoint
+- Master authorised network CIDR blocks
+- Master CIDR block
+- Node service account container registry access
+- Google security group for RBAC
+- Workload identity namespace
+- Enable Stackdriver logging and monitoring
+- Enable Google Cloud HTTP load balancing
+- Enable pod security policy controller
+- Daily maintenance window start time
 - Node pools
   - Name
-  - Initial size
+  - Inital node count
+  - Minimum and maximum number of nodes for autoscaling
+  - Enable automatic repair and upgrade
   - Machine type
-  - Disk type and size
-  - Autoscaling min and max
-  - Enable auto repair and upgrade
-- VPC network and subnetwork names
-- Cluster and service range name
-- Enable access to private GCR images (defaults to false)
-- Disable HTTP load balancing (defaults to false, i.e. HTTP load balancing is enabled)
-- Master CIDR block (defaults to 172.16.0.0/28)
-- Master authorized CIDR blocks (defaults to 0.0.0.0/0 i.e. everywhere)
-- Enabling Stackdriver Kubernetes logging and monitoring
-
-Note that the VPC network and subnetwork specified must already exist.
-The subnetwork must also have the cluster and service ranges specified.
+  - Disk size and type
+  - Use preemptible nodes
+  - Kubernetes version
 
 ## Fixed Arguments
 
-Many of the properties of the cluster are set as Terraform resource arguments with fixed values.
-These values are based on Jetstack's recommended best-practice settings.
-These are:
-
-- Setting master version to latest
-- Enabling private nodes so they aren't reachable externally
-- Disabling private master so it is reachable externally (this can be restricted with master authorized CIDR blocks)
-- Enabling network policy for nodes using Calico
-- Enabling network policy master addon
-- Disabling basic authentication and client certificate issuing
-- Disabling Kubernetes dashboard (Google Cloud Console should be used instead)
-- Use of VPC native networking (using a specified network and subnetwork)
-- Enabling IP aliases
-- Removing the default node pool and creating one or more new pools with Terraform for easier management
-- Setting the OAuth scope of nodes to `cloud-platform` to manage permissions with IAM
-- Disabling node legacy endpoints
-- Creating an IAM service account for nodes with the minimum required roles
+Some of the properties of the cluster are fixed based on Jetstack's recommended best-practice settings:
+- Enabling network policy for nodes and master using Calico.
+- Disabling basic authentication and client certificate issuing.
+- Disabling Kubernetes dashboard (Google Cloud Console should be used instead).
+- Use of VPC native networking (using a specified network and subnetwork).
+- Removing the default node pool and creating one or more new pools with Terraform for easier management.
+- Setting the OAuth scope of nodes to `cloud-platform` to manage permissions with IAM.
+- Disabling node legacy endpoints.
+- Creating an IAM service account for nodes with the minimum required roles:
   - Logging log writer
   - Monitoring metric writer
   - Monitoring viewer
@@ -79,7 +81,7 @@ There is an [example project](https://github.com/jetstack/terraform-google-gke-c
 
 ## Limitations
 
-Note that because the module sets them to be private the **nodes do not have direct access to the internet**.
+If private nodes are used then **nodes will not have direct access to the internet**.
 This means they cannot pull images hosted outside of the container registry in the same project as the cluster.
 The example project features a [Cloud NAT](https://cloud.google.com/nat/docs/overview) to give the nodes to access the internet.
 
