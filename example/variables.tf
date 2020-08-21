@@ -122,8 +122,8 @@ EOF
 }
 
 variable "private_endpoint" {
-  type    = string
-  default = "false"
+  type    = bool
+  default = false
 
   description = <<EOF
 Whether the master's internal IP address is used as the cluster endpoint and the
@@ -132,8 +132,8 @@ EOF
 }
 
 variable "private_nodes" {
-  type    = string
-  default = "true"
+  type    = bool
+  default = true
 
   description = <<EOF
 Whether nodes have internal IP addresses only. If enabled, all nodes are given
@@ -213,8 +213,8 @@ EOF
 }
 
 variable "access_private_images" {
-  type    = string
-  default = "false"
+  type    = bool
+  default = false
 
   description = <<EOF
 Whether to create the IAM role for storage.objectViewer, required to access
@@ -223,8 +223,8 @@ EOF
 }
 
 variable "http_load_balancing_disabled" {
-  type    = string
-  default = "false"
+  type    = bool
+  default = false
 
   description = <<EOF
 The status of the HTTP (L7) load balancing controller addon, which makes it 
