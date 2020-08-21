@@ -134,32 +134,29 @@ networking.
 EOF
 }
 
-variable "nat" {
-  type    = string
-  default = ""
-
+variable "enable_cloud_nat" {
+  type        = bool
+  default     = true
   description = <<EOF
-Whether to enable Cloud NAT. By default Cloud NAT is enabled if private_nodes is
-set to true, but this behaviour is overriden by this variable.
+Whether to enable Cloud NAT. This can be used to allow private cluster nodes to
+accesss the internet. Defaults to 'true'.
 EOF
 }
 
-variable "nat_log" {
-  type    = string
-  default = "true"
-
+variable "enable_cloud_nat_logging" {
+  type        = bool
+  default     = true
   description = <<EOF
-Whether the NAT should export logs.
+Whether the NAT should export logs. Defaults to 'true'.
 EOF
 }
 
-variable "nat_log_filter" {
-  type    = string
-  default = "ERRORS_ONLY"
-
+variable "cloud_nat_logging_filter" {
+  type        = string
+  default     = "ERRORS_ONLY"
   description = <<EOF
 What filtering should be applied to logs for this NAT. Valid values are:
-"ERRORS_ONLY", "TRANSLATIONS_ONLY", "ALL"
+'ERRORS_ONLY', 'TRANSLATIONS_ONLY', 'ALL'. Defaults to 'ERRORS_ONLY'.
 EOF
 }
 

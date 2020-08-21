@@ -25,9 +25,6 @@ terraform {
 locals {
   gcp_location_parts = split("-", var.gcp_location)
   gcp_region         = format("%s-%s", local.gcp_location_parts[0], local.gcp_location_parts[1])
-  # Whether Cloud NAT should be enabled. If explicitly set use this value,
-  # otherwise enable if private_nodes are enabled.
-  nat = var.nat != "" ? var.nat : var.private_nodes
 }
 
 # https://www.terraform.io/docs/providers/google/index.html
@@ -88,7 +85,7 @@ resource "google_compute_subnetwork" "vpc_subnetwork" {
 # This Cloud Router is used only for the Cloud NAT.
 resource "google_compute_router" "router" {
   # Only create the Cloud NAT if it is enabled.
-  count   = local.nat ? 1 : 0
+  count   = var.enable_cloud_nat ? 1 : 0
   name    = format("%s-router", var.cluster_name)
   region  = local.gcp_region
   network = google_compute_network.vpc_network.self_link
@@ -97,7 +94,7 @@ resource "google_compute_router" "router" {
 # https://www.terraform.io/docs/providers/google/r/compute_router_nat.html
 resource "google_compute_router_nat" "nat" {
   # Only create the Cloud NAT if it is enabled.
-  count = local.nat ? 1 : 0
+  count = var.enable_cloud_nat ? 1 : 0
   name  = format("%s-nat", var.cluster_name)
   // Because router has the count attribute set we have to use [0] here to
   // refer to its attributes.
@@ -109,8 +106,8 @@ resource "google_compute_router_nat" "nat" {
   source_subnetwork_ip_ranges_to_nat = "ALL_SUBNETWORKS_ALL_IP_RANGES"
 
   log_config {
-    enable = var.nat_log
-    filter = var.nat_log_filter
+    enable = var.enable_cloud_nat_logging
+    filter = var.cloud_nat_logging_filter
   }
 }
 
