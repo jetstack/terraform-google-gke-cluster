@@ -77,8 +77,8 @@ if [ "$FMT" != "" ]; then
     exit 1
 fi
 
-# Copy files from the example project to use a test project for the module.
-# Only copy these files if they don't already so they can be edited during
+# Copy files from the example project to use as a test project for the module.
+# Only copy these files if they don't already exist so they can be edited during
 # iterative testing.
 if [ ! -f main.tf ]; then
     cp "${REPO_ROOT}/example/main.tf" main.tf
