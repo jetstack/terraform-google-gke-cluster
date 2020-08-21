@@ -81,6 +81,36 @@ resource "google_compute_subnetwork" "vpc_subnetwork" {
   ]
 }
 
+# https://www.terraform.io/docs/providers/google/r/compute_router.html
+# This Cloud Router is used only for the Cloud NAT.
+resource "google_compute_router" "router" {
+  # Only create the Cloud NAT if it is enabled.
+  count   = var.enable_cloud_nat ? 1 : 0
+  name    = format("%s-router", var.cluster_name)
+  region  = local.gcp_region
+  network = google_compute_network.vpc_network.self_link
+}
+
+# https://www.terraform.io/docs/providers/google/r/compute_router_nat.html
+resource "google_compute_router_nat" "nat" {
+  # Only create the Cloud NAT if it is enabled.
+  count = var.enable_cloud_nat ? 1 : 0
+  name  = format("%s-nat", var.cluster_name)
+  // Because router has the count attribute set we have to use [0] here to
+  // refer to its attributes.
+  router = google_compute_router.router[0].name
+  region = google_compute_router.router[0].region
+  # For this example project just use IPs allocated automatically by GCP.
+  nat_ip_allocate_option = "AUTO_ONLY"
+  # Apply NAT to all IP ranges in the subnetwork.
+  source_subnetwork_ip_ranges_to_nat = "ALL_SUBNETWORKS_ALL_IP_RANGES"
+
+  log_config {
+    enable = var.enable_cloud_nat_logging
+    filter = var.cloud_nat_logging_filter
+  }
+}
+
 module "cluster" {
   source  = "jetstack/gke-cluster/google"
   version = "0.2.0-alpha1"
@@ -97,6 +127,8 @@ module "cluster" {
   access_private_images                  = var.access_private_images
   http_load_balancing_disabled           = var.http_load_balancing_disabled
   master_authorized_networks_cidr_blocks = var.master_authorized_networks_cidr_blocks
+  private_nodes                          = var.private_nodes
+  private_endpoint                       = var.private_endpoint
 
   # Refer to the vpc-network and vpc-subnetwork by the name value on the
   # resource, rather than the variable used to assign the name, so that

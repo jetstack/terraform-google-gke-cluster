@@ -77,6 +77,12 @@ module "gke-cluster" {
 
 There is an [example project](https://github.com/jetstack/terraform-google-gke-cluster/tree/master/example) in the `example/` directory which can be used to test and demonstrate the module. It could also be used as the basis for your own Terraform project.
 
+## Limitations
+
+Note that because the module sets them to be private the **nodes do not have direct access to the internet**.
+This means they cannot pull images hosted outside of the container registry in the same project as the cluster.
+The example project features a [Cloud NAT](https://cloud.google.com/nat/docs/overview) to give the nodes to access the internet.
+
 ## License
 
 This project is licensed under the [Apache 2.0 License](https://choosealicense.com/licenses/apache-2.0/).

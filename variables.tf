@@ -284,3 +284,24 @@ Whether Stackdriver Kubernetes monitoring is enabled. This should only be set to
 "false" if another monitoring solution is set up.
 EOF
 }
+
+variable "private_endpoint" {
+  type    = string
+  default = "false"
+
+  description = <<EOF
+Whether the master's internal IP address is used as the cluster endpoint and the
+public endpoint is disabled.
+EOF
+}
+
+variable "private_nodes" {
+  type    = string
+  default = "true"
+
+  description = <<EOF
+Whether nodes have internal IP addresses only. If enabled, all nodes are given
+only RFC 1918 private addresses and communicate with the master via private
+networking.
+EOF
+}

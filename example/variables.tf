@@ -121,6 +121,53 @@ instances are launched.
 EOF
 }
 
+variable "private_endpoint" {
+  type    = string
+  default = "false"
+
+  description = <<EOF
+Whether the master's internal IP address is used as the cluster endpoint and the
+public endpoint is disabled.
+EOF
+}
+
+variable "private_nodes" {
+  type    = string
+  default = "true"
+
+  description = <<EOF
+Whether nodes have internal IP addresses only. If enabled, all nodes are given
+only RFC 1918 private addresses and communicate with the master via private
+networking.
+EOF
+}
+
+variable "enable_cloud_nat" {
+  type        = bool
+  default     = true
+  description = <<EOF
+Whether to enable Cloud NAT. This can be used to allow private cluster nodes to
+accesss the internet. Defaults to 'true'.
+EOF
+}
+
+variable "enable_cloud_nat_logging" {
+  type        = bool
+  default     = true
+  description = <<EOF
+Whether the NAT should export logs. Defaults to 'true'.
+EOF
+}
+
+variable "cloud_nat_logging_filter" {
+  type        = string
+  default     = "ERRORS_ONLY"
+  description = <<EOF
+What filtering should be applied to logs for this NAT. Valid values are:
+'ERRORS_ONLY', 'TRANSLATIONS_ONLY', 'ALL'. Defaults to 'ERRORS_ONLY'.
+EOF
+}
+
 variable "vpc_subnetwork_cidr_range" {
   type = string
 }

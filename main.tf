@@ -86,13 +86,8 @@ resource "google_container_cluster" "cluster" {
 
   # A set of options for creating a private cluster.
   private_cluster_config {
-    # Whether the master's internal IP address is used as the cluster endpoint.
-    enable_private_endpoint = false
-
-    # Whether nodes have internal IP addresses only. If enabled, all nodes are
-    # given only RFC 1918 private addresses and communicate with the master via
-    # private networking.
-    enable_private_nodes = true
+    enable_private_endpoint = var.private_endpoint
+    enable_private_nodes    = var.private_nodes
 
     master_ipv4_cidr_block = var.master_ipv4_cidr_block
   }
