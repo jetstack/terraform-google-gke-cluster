@@ -305,3 +305,25 @@ only RFC 1918 private addresses and communicate with the master via private
 networking.
 EOF
 }
+
+variable "pod_security_policy_enabled" {
+  type = bool
+
+  default = false
+
+  description = <<EOF
+A PodSecurityPolicy is an admission controller resource you create that
+validates requests to create and update Pods on your cluster. The
+PodSecurityPolicy resource defines a set of conditions that Pods must meet to be
+accepted by the cluster; when a request to create or update a Pod does not meet
+the conditions in the PodSecurityPolicy, that request is rejected and an error
+is returned.
+
+If you enable the PodSecurityPolicy controller without first defining and
+authorizing any actual policies, no users, controllers, or service accounts can
+create or update Pods. If you are working with an existing cluster, you should
+define and authorize policies before enabling the controller.
+
+https://cloud.google.com/kubernetes-engine/docs/how-to/pod-security-policies
+EOF
+}

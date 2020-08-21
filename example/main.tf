@@ -50,7 +50,9 @@ resource "google_compute_subnetwork" "vpc_subnetwork" {
   # a dash, lowercase letter, or digit, except the last character, which
   # cannot be a dash.
   #name = "default-${var.gcp_cluster_region}"
-  name = var.vpc_subnetwork_name
+  name    = var.vpc_subnetwork_name
+  region  = local.gcp_region
+  project = var.gcp_project_id
 
   ip_cidr_range = var.vpc_subnetwork_cidr_range
 
@@ -113,7 +115,7 @@ resource "google_compute_router_nat" "nat" {
 
 module "cluster" {
   source  = "jetstack/gke-cluster/google"
-  version = "0.2.0-alpha1"
+  version = "0.2.1-alpha1"
 
   # These values are set from the terrafrom.tfvas file
   gcp_project_id                         = var.gcp_project_id
@@ -129,6 +131,7 @@ module "cluster" {
   master_authorized_networks_cidr_blocks = var.master_authorized_networks_cidr_blocks
   private_nodes                          = var.private_nodes
   private_endpoint                       = var.private_endpoint
+  pod_security_policy_enabled            = var.pod_security_policy_enabled
 
   # Refer to the vpc-network and vpc-subnetwork by the name value on the
   # resource, rather than the variable used to assign the name, so that
