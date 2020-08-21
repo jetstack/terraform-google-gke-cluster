@@ -66,3 +66,5 @@ master_authorized_networks_cidr_blocks = [
     display_name = "default"
   },
 ]
+
+identity_namespace = "my-project.svc.id.goog"
