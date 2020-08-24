@@ -115,7 +115,7 @@ resource "google_compute_router_nat" "nat" {
 
 module "cluster" {
   source  = "jetstack/gke-cluster/google"
-  version = "0.2.1-alpha1"
+  version = "0.3.0"
 
   # These values are set from the terrafrom.tfvas file
   gcp_project_id                         = var.gcp_project_id
