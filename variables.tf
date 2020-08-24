@@ -327,3 +327,16 @@ define and authorize policies before enabling the controller.
 https://cloud.google.com/kubernetes-engine/docs/how-to/pod-security-policies
 EOF
 }
+
+variable "identity_namespace" {
+  type = string
+
+  default = ""
+
+  description = <<EOF
+The workload identity namespace to use with this cluster. Currently, the only
+supported identity namespace is the project's default
+'[project_id].svc.id.goog'.
+https://cloud.google.com/kubernetes-engine/docs/how-to/workload-identity
+EOF
+}
