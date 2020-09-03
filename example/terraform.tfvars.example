@@ -68,3 +68,5 @@ master_authorized_networks_cidr_blocks = [
 ]
 
 identity_namespace = "my-project.svc.id.goog"
+
+istio_config_disabled = "false"

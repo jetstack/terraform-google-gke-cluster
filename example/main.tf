@@ -128,6 +128,7 @@ module "cluster" {
   master_ipv4_cidr_block                 = var.master_ipv4_cidr_block
   access_private_images                  = var.access_private_images
   http_load_balancing_disabled           = var.http_load_balancing_disabled
+  istio_config_disabled                  = var.istio_config_disabled
   master_authorized_networks_cidr_blocks = var.master_authorized_networks_cidr_blocks
   private_nodes                          = var.private_nodes
   private_endpoint                       = var.private_endpoint

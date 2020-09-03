@@ -138,7 +138,9 @@ resource "google_container_cluster" "cluster" {
     http_load_balancing {
       disabled = var.http_load_balancing_disabled
     }
-
+    istio_config {
+      disabled = var.istio_config_disabled
+    }
     # Whether we should enable the network policy addon for the master. This must be
     # enabled in order to enable network policy for the nodes. It can only be disabled
     # if the nodes already do not have network policies enabled. Defaults to disabled;

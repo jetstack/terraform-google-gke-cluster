@@ -233,6 +233,16 @@ by default; set disabled = true to disable.
 EOF
 }
 
+variable "istio_config_disabled" {
+  type    = bool
+  default = true
+
+  description = <<EOF
+The status of the Istio addon, which makes it easy to set up Istio for services
+in a cluster. It is disabled by default. Set disabled = false to enable.
+EOF
+}
+
 variable "master_authorized_networks_cidr_blocks" {
   type = list(map(string))
 
