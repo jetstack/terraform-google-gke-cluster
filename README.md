@@ -9,7 +9,10 @@ It gives them flexibility with certain properties so the cluster can be customis
 
 ## Deprecation
 
-The `0.3` release of this module is planned to be the final release.
+:warning:
+**The `0.3` release of this module is planned to be the final release.**
+:warning:
+
 After this the module will be deprecated in favour of [Google's GKE module](https://github.com/terraform-google-modules/terraform-google-kubernetes-engine).
 Jetstack will be producing an example project using Google's module as well as migration guidance.
 
